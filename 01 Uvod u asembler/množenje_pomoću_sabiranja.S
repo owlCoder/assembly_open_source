@@ -5,7 +5,7 @@
 
 main: 
     movl $19, %eax      # prvi broj
-    movl $25, %ebx       # drugi broj
+    movl $25, %ebx      # drugi broj
     movl $0, %ecx       # proizvod
     jmp pomnozi;        # izvrši petlju (mislim da radi i bez ovoga)
 
