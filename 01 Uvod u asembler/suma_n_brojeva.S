@@ -1,4 +1,4 @@
-# 1. Zbir prvih n brojeva
+#  Zbir prvih n brojeva
 .section .data
 .section .text
 .globl main
