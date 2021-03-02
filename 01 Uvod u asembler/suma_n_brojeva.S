@@ -4,15 +4,16 @@
 
 main: 
     movl $0, %eax       # podesi vrednost sume na 0
-    movl $1, %ebx       # podesi vrednost brojača na 1
+    movl $0, %ebx       # podesi vrednost brojača na 0
     jmp sumiranje;      # izvrši petlju (mislim da radi i bez ovoga)
 
 sumiranje:
+    addl $1, %ebx       # brojač uvećaj za 1
+    addl %ebx, %eax     # dodaj brojač na sumu
+
     cmpl $10, %ebx      # uporedi da li je brojač stigao do 10
     je kraj             # ako jeste, završi program
 
-    addl %ebx, %eax     # dodaj brojač na sumu
-    addl $1, %ebx       # brojač uvećaj za 1
     jmp sumiranje       # ponovo izvrši petlju
 
 kraj: 
