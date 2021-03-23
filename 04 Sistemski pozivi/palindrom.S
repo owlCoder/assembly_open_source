@@ -38,6 +38,7 @@ main:                              ######## ISPIS msgIn ###########
 
     addl $string-2, %eax           # indeksi 0 do n-1
     movl $string,   %ebx
+    
 provera:
     movb (%eax), %cl
     cmpb %cl, (%ebx)
