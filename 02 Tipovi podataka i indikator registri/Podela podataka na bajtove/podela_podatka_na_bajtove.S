@@ -5,7 +5,7 @@
     rec: .long 0x12345678
 .section .text
 
-.globl main
+.global main
 
 main:
     movb rec,   %ah     # 0x78
