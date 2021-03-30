@@ -1,11 +1,16 @@
 .section .data
+    # ne definisati ovde nijedan string, program neće raditi
     str_max = 40
-    str:     .fill str_max, 1, 42  # 42 - ascii '*'
-    unos:    .ascii "Unesite vase ime i prezime: "
+
+    unos:    .ascii "Unesite ime i prezime: \0"
     len = . - unos
-    ispis:   .ascii "\nVase ime i prezime je: "
+
+    str:     .fill str_max, 1, 42  # 42 - ascii '*'
+    # program radi sasvim korektno
+
+    ispis:   .ascii "Vi ste: \0"
     len2 = . - ispis
-    velicina: .long 0
+    # takođe ni ovde ne definisati nijedan string, program neće raditi
 .section .text
 
 .global main
@@ -14,7 +19,7 @@ main:
     # ispis poruke
     movl $4,        %eax
     movl $1,        %ebx
-    movl $unos,      %ecx
+    movl $unos,     %ecx
     movl $len,      %edx
     int $0x80
 
@@ -24,9 +29,22 @@ main:
     movl $str_max, %edx         # adresa u registar
     int $0x80   
 
-    movl %eax, velicina         # sacuvaj broj unetih
+    movl %eax,     %esi         # broj unetih karaktera
+    movl $unos,    %eax         # adresa stringa
 
-     # ispis
+upcase:
+    cmpb $'a', (%eax)           # provera da li je malo slovo
+    jb dalje
+    cmpb $'z', (%eax)
+    ja dalje
+    addb $'A'-'a', (%eax)       # ako jeste malo slovo, UPCASE
+                                # 'A'-'a' je razlika između ASCII kodova za veliko i malo A
+dalje:
+    incl %eax
+    cmpb $10, (%eax)            # kod read poziva, string se završava sa 10
+    jne upcase
+
+    # ispis
     movl $4,        %eax
     movl $1,        %ebx
     movl $ispis,    %ecx
@@ -37,7 +55,7 @@ main:
     movl $4,        %eax
     movl $1,        %ebx
     movl $str,      %ecx
-    movl velicina,  %edx
+    movl %esi,      %edx   # može i veličina
     int $0x80
 
 kraj:
