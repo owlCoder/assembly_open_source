@@ -1,7 +1,7 @@
 # Množenje pomoću sabiranja
 .section .data
 .section .text
-.globl main
+.global main
 
 main: 
     movl $1,  %eax      # prvi broj
