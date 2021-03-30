@@ -11,13 +11,13 @@
     str_max = 20                   # Ukupan broj karaktera koji je dozvoljeno korisniku da unese 
 	string: .fill str_max, 1, 42     # '*'
 
-    msgIn: .ascii "Unesite neki teskts (do 20 karaktera): "
+    msgIn: .ascii "Unesite string: "
 	len1 = . - msgIn                 # '.' predstavlja brojac lokacija
 
-    msgIs: .ascii "String JESTE palindrom\n"
+    msgIs: .ascii "String je palindrom.\n"
     len2 = . - msgIs               # '.' predstavlja brojac lokacija
 
-    msgNot: .ascii "String NIJE palindrom\n"
+    msgNot: .ascii "String nije palindrom.\n"
     len3 = . - msgNot              # '.' predstavlja brojac lokacija
 
 .section .text
@@ -36,7 +36,7 @@ main:                              ######## ISPIS msgIn ###########
 	movl $str_max,  %edx             # Maksimalan broj karaktera koji korisnik moze da unese
 	int $0x80
 
-    addl $string-2, %eax           # indeksi 0 do n-1
+    addl $string-2, %eax             # indeksi 0 do n-1
     movl $string,   %ebx
     
 provera:
@@ -67,8 +67,14 @@ nijePalindrom:
 	leal msgNot, %ecx               # ekvivalentno sa: movl $string, %ecx
 	movl $len3, %edx                # Koliko karaktera zelimo da ispisemo na ekran
 	int $0x80 
+	jmp krajNijePal
 
 kraj:
 	movl $1, %eax
 	movl $0, %ebx
+	int $0x80
+
+krajNijePal:
+	movl $1, %eax
+	movl $1, %ebx
 	int $0x80
