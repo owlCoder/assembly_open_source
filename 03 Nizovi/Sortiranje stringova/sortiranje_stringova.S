@@ -14,12 +14,14 @@ str_ispis_len = . - str_ispis
 zamena:    .byte 0  # da li je bila zamena prilikom sortiranja
 
 .section .text
-.globl main
+.global main
+
 main:
     # unos stringova
     movl $0, currentn
     movl $strings, %eax
     movl %eax, currents
+
 petlja1:
     movl $4, %eax       # ispis poruke
     movl $1, %ebx
@@ -46,6 +48,7 @@ sortiranje: # spoljašnja petlja koja prolazi od početka niza stringova
 
 sort_unutrasnja:
     movl currents, %esi
+
 poredi:                     # poređenje dva susedna stringa
     movb (%esi), %al        # znak tekućeg stringa
     movb str_len(%esi), %ah # znak sledećeg stringa
@@ -58,6 +61,7 @@ poredi:                     # poređenje dva susedna stringa
     jb drugi_manji
     incl %esi
     jmp poredi
+
 drugi_manji:        # ako je drugi manji, treba ih zameniti
     movb $1, zamena
     movl currentn, %esi     # zamena dužina dva stringa
@@ -68,6 +72,7 @@ drugi_manji:        # ako je drugi manji, treba ih zameniti
 
     movl currents, %esi     # zamena znakova dva stringa
     movl $str_len, %edi     # zamenjujemo svih $str_len znakova pošto stringovi mogu biti različite dužine
+
 zameni:
     decl %edi
     js sledeci
@@ -81,28 +86,30 @@ sledeci:
     incl currentn
     cmpl $str_num-1, currentn   # indeks ne ide do kraja, zbog provere po parovima
     jl sort_unutrasnja
-    cmpb $0, zamena     # ako je bila zamena, prođi ponovo kroz niz stringova
+    cmpb $0, zamena        # ako je bila zamena, prođi ponovo kroz niz stringova
     jne sortiranje
 
     #ispis stringova
-    movl $4, %eax       # ispis poruke
+    movl $4, %eax          # ispis poruke
     movl $1, %ebx
     movl $str_ispis, %ecx
     movl $str_ispis_len, %edx
     int $0x80
     movl $0, currentn
     movl $strings, currents
+
 petlja2:
-    movl $4, %eax       # ispis stringa
+    movl $4, %eax          # ispis stringa
     movl $1, %ebx
     movl currents, %ecx    # adresa tekućeg stringa
     movl currentn, %edx    # dužina tekućeg stringa
     movl str_lens(,%edx,4), %edx
-    int $0x80   # zgodno je što je \n deo stringa, pa će ispis biti u posebnim redovima
+    int $0x80              # zgodno je što je \n deo stringa, pa će ispis biti u posebnim redovima
     addl $str_len, currents
     incl currentn
     cmpl $str_num, currentn
     jl petlja2
+
 kraj:
     movl $1, %eax
     movl $0, %ebx

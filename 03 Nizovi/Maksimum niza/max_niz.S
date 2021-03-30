@@ -26,7 +26,7 @@ uvecaj_adresu:
     jmp provera
 
 kraj:
-    movl %eax, maximum         # iz registra u maximum
+    movl %eax, maximum      # iz registra u maximum
     movl $1, %eax
     movl $0, %ebx
     int $0x80
