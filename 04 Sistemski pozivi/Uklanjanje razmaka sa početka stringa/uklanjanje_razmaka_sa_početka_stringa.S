@@ -1,149 +1,134 @@
+# Zadatak t12.S
+# U datoteci t12.S realizovati asemblerski program koji će sa standardnog ulaza učitati dva stringa 
+# (koji mogu imati do 20 karaktera) u promenljive S1 i S2 i potom postaviti 8-bitnu neoznačenu promenljivu R na
+# vrednost:
+# -> 1 ukoliko string S1 sadrži više znakova ’+’ nego što S2 ima znakova ’-’
+# -> 2 ukoliko string S1 sadrži manje znakova ’+’ nego što S2 ima znakova ’-’
+# -> 3 ukoliko string S1 sadrži isti broj znakova ’+’ kao što S2 ima znakova ’-’
+# Putem odgovarajućeg sistemskog poziva program treba da vrati operativnom sistemu vrednost promenljive R.
+
+# Primer interakcije sa programom:
+# Unesite S1: srecno++ na testu
+# Unesite S2: ^-^
 .section .data
-    krajnjaPoruka:  .ascii "String posle ciscenja razmaka:\n"    # ova poruka mora na vrhu, izaziva cudan overflow
-    KPlen =         . - krajnjaPoruka                            # bafera ako nije na vrhu data sekcije? gcc powered
+    max_str = 20
+    S1: .fill max_str, 1, 42
+    S2: .fill max_str, 1, 42
 
-    max_u = 50
-    str:            .fill max_u, 1, 0
+    unos1str: .ascii "Unesite S1: \0"
+    u1s_len = . - unos1str
 
-    #str:            .ascii "                                         mnogo razmaka\0"
-    msg =           . - str
+    unos2str: .ascii "Unesite S2: \0"
+    u2s_len = . - unos2str
 
-    noviRed:        .ascii "\n"
-    nl = . - noviRed
+    R: .byte 0
 
-    pocetnaPoruka: .ascii "\nString pre ciscenja razmaka:\n"
-    pRlen =        . - pocetnaPoruka
+    ucitano_znakova_str1: .long 0
+    ucitano_znakova_str2: .long 0
 
-    unos:          .ascii "\nUnesite jedan string sa razmacima na pocetku:\n"
-    unosLen =      . - unos
-
-    first:         .byte 0
-    razmaka:       .long 0
-    prom:          .long 0
+    pluseva:              .long 0
+    minusa:               .long 0
 .section .text
 .global main
 
 main:
-    cmpb $0,             first
-    je pocetakPoruka
+    # ispis prve poruke za unos stringa
+    movl $4,       %eax
+    movl $1,       %ebx
+    leal unos1str, %ecx
+    movl $u1s_len, %edx
+    int $0x80
 
-    movl $str,           %eax         # adresa stringa
-    movl $0,             %ebx         # broj razmaka
-    movl $str,           %esi         # odakle se kopira element niza
-    movl $str,           %edi         # u sta se kopira element niza
-    movl $0,             %edx         # pomocni registar, za cuvanje trenutnog elementa
+    # ucitavanje prvog stringa
+    movl $3,       %eax
+    movl $0,       %ebx
+    leal S1,       %ecx
+    movl $max_str, %edx
+    int $0x80
 
-razmaci:
-    cmpb $' ',          (%eax)       # da li je razmak?  
-    								 # KOMENTAR: mora b na kraju, 
-    								 # jer bi se inace poredilo vise lokacija
-    								 # kad se radi sa stringovima, uvek se poredi samo jedna lokacija
-    								 # inace moze da se pokupi jos nesto i da uslov ne bude tacan
-    je uvecajBrRazm
-    jne shiftNizaPocetak	         # KOMENTAR NA LABELI
+    # koliko je znakova ucitano za prvi string  
+    movl %eax,     ucitano_znakova_str1
 
-uvecajBrRazm:
-    incl                 %ebx        # broj razmaka za 1 veci
-    incl                 %eax        # predji na sled. elem
-    jmp razmaci
+    # ispis druge poruke za unos stringa
+    movl $4,       %eax
+    movl $1,       %ebx
+    leal unos2str, %ecx
+    movl $u2s_len, %edx
+    int $0x80
 
-shiftNizaPocetak:
-	 addl %ebx,          %esi       # prvi korisni podatak posle razmaka
-	 								# KOMENTAR: ovo ne treba da bude u petlji, zato je izdvojeno
-     movl %ebx,          razmaka    # zbog korekcije ispisa sačuvaj podatak o broju razmaka
-shiftNiza:
-    movb (%esi),         %dl        # sacuvaj trenutni element za kopiranje
-    								# KOMENTAR: moze i %edx, ali posto kod stringova se radi sa bajtovima, 
-    								# ovako se izbegavaju problemi posle
-    								
-    movb %dl,           (%edi)      # upisi ga na pocetak niza, drugi indeks, itd 
-    								# KOMENTAR: mora da se radi upisivanje na nivou bajtova
+    # ucitavanje drugog stringa
+    movl $3,       %eax
+    movl $0,       %ebx
+    leal S2,       %ecx
+    movl $max_str, %edx
+    int $0x80
 
-    cmpl $0,           1(%esi)      # da li smo sve razmake uklonili?
-    								# KOMENTAR: kraj je kad %esi dodje do poslednjeg elementa
-    								# -1 ispred je da bi se i 0 upisala u string
-    jne povecajAdrese
-    je krajPoruka   			    # svi razmaci potroseni, prebaci sve do kraja '\0'
-									# KOMENTAR: ovde se skace na kraj
-povecajAdrese:
-    addl $1,             %esi       # predji na sledeci element
-    								# KOMENTAR: radi se sa bajtovima, slicno je i u narednoj liniji
-    addl $1,             %edi       # predji na sledeci element
-    decl                 %ebx       # smanji broj preostalih razmaka za 1 
-    jmp shiftNiza                   # vrati se na shift niza     
+    # koliko je znakova ucitano za drugi string  
+    movl %eax,     ucitano_znakova_str2
 
-shiftujDoKrajaNiza:			
-    cmpl $str+max_u,        %esi
-    je krajStringa
-    jne pomerajElementa             # nije kraj niza, pomeri element
+pocetak_prvog_stringa:
+    movl $S1,                    %esi
 
-pomerajElementa:
-    movl (%esi),         %edx       # sacuvaj trenutni element za kopiranje
-    movl %edx,           %edi       # upisi ga na pocetak niza, drugi indeks, itd
-    addl $4,             %esi       # predji na sledeci element
-    addl $4,             %edi       # predji na sledeci element
-    jmp shiftujDoKrajaNiza          # pokusaj dalji pomeraj elementa
+prebroj_S1:
+    cmpl $S1+max_str, %esi # da li smo stigli do kraja stringa
+    jb broj_pluseve
+    ja pocetak_drugog_stringa
 
-krajStringa:
-    addl $4,             %esi       # predji na sledeci element (koji nije koristan nakon pomeranja)
-    movl $0,             %esi       # dodaj '\0'
+broj_pluseve:
+    movb (%esi),    %dl # sačuvaj trenutni element u manji registar
+    cmpb $'+',      %dl # da li je to znak + ?
+    je pronadjenPlus
+    jmp uvecaj_adresu_S1
 
-    jmp krajPoruka
+pronadjenPlus:
+    incl pluseva
 
-pocetakPoruka:
-    movl $4,             %eax       # poruka za unos stringa
-    movl $1,             %ebx
-    movl $unos,          %ecx
-    movl $unosLen,       %edx   
-    int $0x80 
+uvecaj_adresu_S1:
+    incl %esi
+    jmp prebroj_S1
 
-    movl $3,             %eax       # unos stringa prepustamo korisniku
-    movl $0,             %ebx
-    movl $str,           %ecx
-    movl $max_u,         %edx   
-    int $0x80 
+# drugi string
+pocetak_drugog_stringa:
+    movl $S2,                    %esi
 
-    movl %eax,           prom       # sacuvaj koliko je uneto karaktera
+prebroj_S2:
+    cmpl $S2+max_str, %esi # da li smo stigli do kraja stringa
+    jb broj_minuse
+    ja uporedi_broj_pluseva_minusa
 
-    movl $4,             %eax       # ispis pocetnog stringa, pre ciscenja razmaka
-    movl $1,             %ebx
-    movl $pocetnaPoruka, %ecx
-    movl $pRlen,         %edx   
-    int $0x80 
-    
-    movl $4,             %eax
-    movl $1,             %ebx
-    movl $str,           %ecx
-    movl $msg,           %edx   
-    int $0x80 
-    
-    movl $4,             %eax      # ispis novog reda
-    movl $1,             %ebx
-    movl $noviRed,       %ecx
-    movl $nl,            %edx   
-    int $0x80 
+broj_minuse:
+    movb (%esi),    %dl # sačuvaj trenutni element u manji registar
+    cmpb $'-',      %dl # da li je to znak + ?
+    je pronadjenMinus
+    jmp uvecaj_adresu_S2
 
-    incb                 first     # ne ispisuj vise pocetnu poruku
-    jmp main
+pronadjenMinus:
+    incl minusa
 
-krajPoruka:
-    movl $4,             %eax     # ispis pocetnog stringa, posle ciscenja razmaka
-    movl $1,             %ebx
-    movl $krajnjaPoruka, %ecx
-    movl $KPlen,         %edx   
-    int $0x80 
+uvecaj_adresu_S2:
+    incl %esi           # char ima 1 bajt !
+    jmp prebroj_S2
 
-    movl prom,            %edi
-    subl razmaka,         %edi     # samo zbog ispisa se oduzima (broj razmaka - 1)
-    #incl                 %edi
+uporedi_broj_pluseva_minusa:
+    movl pluseva, %eax # nema dva pristupa memoriji
+    cmpl %eax, minusa
+    jb manjeMinusa
+    ja manjePluseva
+    je istiBroj
 
-    movl $4,             %eax
-    movl $1,             %ebx
-    movl $str,           %ecx
-    movl %edi,           %edx   
-    int $0x80 
+manjeMinusa:
+    movl $1, R
+    jmp kraj
+
+manjePluseva:
+    movl $2, R
+    jmp kraj
+
+istiBroj:
+    movl $3, R
 
 kraj:
-    movl $1,             %eax
-    movl $0,             %ebx
+    movl $1, %eax
+    movl R,  %ebx # Putem odgovarajućeg sistemskog poziva program 
+                  # treba da vrati operativnom sistemu vrednost promenljive R.
     int $0x80
