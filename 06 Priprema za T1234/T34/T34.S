@@ -52,7 +52,9 @@ main:
     pushl $R                # ubacivanje na stek
     call potprogram         # poziv potprograma
 
+    movl %eax, R            # rezultat smesti u promenljivu R
+
 kraj:
     movl $1, %eax
-    movl 0,  %ebx 
+    movl R,  %ebx
     int $0x80
