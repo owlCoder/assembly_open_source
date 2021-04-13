@@ -98,7 +98,7 @@ prebroj_S2:
 
 broj_minuse:
     movb (%esi),    %dl # sačuvaj trenutni element u manji registar
-    cmpb $'-',      %dl # da li je to znak + ?
+    cmpb $'-',      %dl # da li je to znak - ?
     je pronadjenMinus
     jmp uvecaj_adresu_S2
 
