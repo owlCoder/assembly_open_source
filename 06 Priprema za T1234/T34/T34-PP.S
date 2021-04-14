@@ -62,8 +62,8 @@ uvecaj_adresu_S2:
 
 uporedi_broj_pluseva_minusa:
     cmpl %ecx, %ebx
-    jb manjeMinusa
-    ja manjePluseva
+    ja manjeMinusa
+    jb manjePluseva
     je istiBroj
 
 manjeMinusa:
