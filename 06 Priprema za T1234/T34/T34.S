@@ -47,9 +47,9 @@ main:
     movl $max_str, %edx
     int $0x80
 
-    pushl $S1               # ubacivanje na stek
-    pushl $S2               # ubacivanje na stek
     pushl $R                # ubacivanje na stek
+    pushl $S2               # ubacivanje na stek
+    pushl $S1               # ubacivanje na stek
     call potprogram         # poziv potprograma
 
     movl %eax, R            # rezultat smesti u promenljivu R
