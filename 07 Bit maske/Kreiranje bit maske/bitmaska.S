@@ -2,7 +2,7 @@
 .section .text
 .global maska
 # unsigned int maska(unsigned int n, unsigned int v)
-# 12(%ebp)           8(%ebp)         4(%ebp)
+# 4(%ebp)           8(%ebp)         12(%ebp)
 maska:
 	pushl %ebp
     movl  %esp,   %ebp
