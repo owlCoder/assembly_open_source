@@ -4,10 +4,10 @@
 # unsigned int maska(unsigned int n, unsigned int v)
 # 4(%ebp)           8(%ebp)         12(%ebp)
 maska:
-	pushl %ebp
+    pushl %ebp
     movl  %esp,   %ebp
 	
-	movl 8(%ebp), %ecx		# n smesti u registar
+    movl 8(%ebp), %ecx		# n smesti u registar
     testl $0b11111111111111111111111111100000, %ecx  # ako je n veće od 31 !
     jnz setovanje
 	
