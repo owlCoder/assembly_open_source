@@ -8,14 +8,15 @@ potprogram:                # naziv potprograma
     pushl %ebp             # početak potprograma
     movl  %esp,     %ebp
     pushl %ebx
-
+    
+    movl 16(%ebp),  %eax     # rezultat
     movl $0,        %ebx     # broj pluseva
     movl $0,        %ecx     # broj minusa
 
 init_first_string:
-    movl 12(%ebp),  %esi    # početak stringa
-    movl 12(%ebp),  %edi    # kraj stringa
-    addl $20,       %edi    # kraj stringa
+    movl 8(%ebp),  %esi    # početak stringa
+    movl 8(%ebp),  %edi    # kraj stringa
+    addl $20,      %edi    # kraj stringa
 
 prebroj_S1:
     cmpl %edi, %esi # da li smo stigli do kraja stringa
@@ -32,13 +33,13 @@ pronadjenPlus:
     incl %ebx
 
 uvecaj_adresu_S1:
-    addl $4, %esi
+    addl $1, %esi
     jmp prebroj_S1
 
 # drugi string
 init_second_string:
-    movl 16(%ebp),  %esi    # početak stringa
-    movl 16(%ebp),  %edi    # kraj stringa
+    movl 12(%ebp),  %esi    # početak stringa
+    movl 12(%ebp),  %edi    # kraj stringa
     addl $20,       %edi    # kraj stringa
 
 prebroj_S2:
@@ -56,7 +57,7 @@ pronadjenMinus:
     incl %ecx
 
 uvecaj_adresu_S2:
-    addl $4, %esi
+    addl $1, %esi
     jmp prebroj_S2
 
 uporedi_broj_pluseva_minusa:

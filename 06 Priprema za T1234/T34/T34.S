@@ -51,6 +51,7 @@ main:
     pushl $S2               # ubacivanje na stek
     pushl $S1               # ubacivanje na stek
     call potprogram         # poziv potprograma
+    addl $12,      %esp     # oslobadjanje steka
 
     movl %eax, R            # rezultat smesti u promenljivu R
 
