@@ -25,9 +25,6 @@
 
     R: .byte 0
 
-    ucitano_znakova_str1: .long 0
-    ucitano_znakova_str2: .long 0
-
     pluseva:              .long 0
     minusa:               .long 0
 .section .text
@@ -48,9 +45,6 @@ main:
     movl $max_str, %edx
     int $0x80
 
-    # koliko je znakova ucitano za prvi string  
-    movl %eax,     ucitano_znakova_str1
-
     # ispis druge poruke za unos stringa
     movl $4,       %eax
     movl $1,       %ebx
@@ -64,9 +58,6 @@ main:
     leal S2,       %ecx
     movl $max_str, %edx
     int $0x80
-
-    # koliko je znakova ucitano za drugi string  
-    movl %eax,     ucitano_znakova_str2
 
 pocetak_prvog_stringa:
     movl $S1,                    %esi
