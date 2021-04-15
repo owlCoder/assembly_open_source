@@ -1,3 +1,5 @@
+# PR55-2020 Jovanović Danijel
+
 # Zadatak t12.S
 # U datoteci t12.S realizovati asemblerski program koji će sa standardnog ulaza učitati dva stringa 
 # (koji mogu imati do 20 karaktera) u promenljive S1 i S2 i potom postaviti 8-bitnu neoznačenu promenljivu R na
@@ -46,9 +48,6 @@ main:
     movl $max_str, %edx
     int $0x80
 
-    # koliko je znakova ucitano za prvi string  
-    movl %eax,     ucitano_znakova_str1
-
     # ispis druge poruke za unos stringa
     movl $4,       %eax
     movl $1,       %ebx
@@ -63,57 +62,24 @@ main:
     movl $max_str, %edx
     int $0x80
 
-    # koliko je znakova ucitano za drugi string  
-    movl %eax,     ucitano_znakova_str2
+    # pozivanje potprograma za prebrojavanje znakova
+    pushl $'+'
+    pushl $S1
+    call prebroji
+    movl %eax, pluseva
+    addl $8,      %esp # oslobadjanje steka
 
-pocetak_prvog_stringa:
-    movl $S1,                    %esi
-
-prebroj_S1:
-    cmpl $S1+max_str, %esi # da li smo stigli do kraja stringa
-    jne broj_pluseve
-    je pocetak_drugog_stringa
-
-broj_pluseve:
-    movb (%esi),    %dl # sačuvaj trenutni element u manji registar
-    cmpb $'+',      %dl # da li je to znak + ?
-    je pronadjenPlus
-    jmp uvecaj_adresu_S1
-
-pronadjenPlus:
-    incl pluseva
-
-uvecaj_adresu_S1:
-    addl $1, %esi
-    jmp prebroj_S1
-
-# drugi string
-pocetak_drugog_stringa:
-    movl $S2,                    %esi
-
-prebroj_S2:
-    cmpl $S2+max_str, %esi # da li smo stigli do kraja stringa
-    jne broj_minuse
-    je uporedi_broj_pluseva_minusa
-
-broj_minuse:
-    movb (%esi),    %dl # sačuvaj trenutni element u manji registar
-    cmpb $'-',      %dl # da li je to znak - ?
-    je pronadjenMinus
-    jmp uvecaj_adresu_S2
-
-pronadjenMinus:
-    incl minusa
-
-uvecaj_adresu_S2:
-    addl $1, %esi
-    jmp prebroj_S2
+    pushl $'-'
+    pushl $S2
+    call prebroji
+    movl %eax, minusa
+    addl $8,      %esp # oslobadjanje steka
 
 uporedi_broj_pluseva_minusa:
     movl pluseva, %eax # nema dva pristupa memoriji
-    cmpl %eax, minusa
-    jb manjeMinusa
-    ja manjePluseva
+    cmpl minusa,  %eax
+    ja manjeMinusa
+    jb manjePluseva
     je istiBroj
 
 manjeMinusa:
