@@ -28,7 +28,7 @@ petlja:
 
 provera:
     movb  (%esi),   %dl     # sačuvaj trenutni element u manji registar
-    cmpb  %bl,   %dl     # da li je to znak koji se traži ?
+    cmpb   %bl,     %dl     # da li je to znak koji se traži ?
     je pronadjen_znak
     jmp uvecaj_adresu
 
