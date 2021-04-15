@@ -59,15 +59,3 @@ kraj:
     movl $1, %eax
     movl R,  %ebx
     int $0x80
-
-
-unsigned int prebroji(char *str, char c)
-{
-    pojave = 0;
-    while(*str != '\0') {
-        if( *str == c)
-            pojave++;
-        str++;
-    }
-    return pojave;
-}
