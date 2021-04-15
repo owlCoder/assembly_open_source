@@ -1,3 +1,5 @@
+# PR55-2020 Danijel Jovanović
+
 # Zadatak t12.S
 # U datoteci t12.S realizovati asemblerski program koji će sa standardnog ulaza učitati dva stringa 
 # (koji mogu imati do 20 karaktera) u promenljive S1 i S2 i potom postaviti 8-bitnu neoznačenu promenljivu R na
