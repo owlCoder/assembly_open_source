@@ -15,22 +15,22 @@ potprogram:                # naziv potprograma
 
     movl $0,        %ebx     # broj pluseva
     movl $0,        %ecx     # broj minusa
+	
+    # pozivanje potprograma za prebrojavanje znakova
+    pushl $'-'
+    pushl 12(%ebp)
+    call prebroji
+    movl %eax,    %ecx
+    addl $8,      %esp       # oslobadjanje steka
 
     # pozivanje potprograma za prebrojavanje znakova
     pushl $'+'
     pushl 8(%ebp)
     call prebroji
-    movl %eax,    %ebx
-    addl $8,      %esp # oslobadjanje steka
-
-    pushl $'-'
-    pushl 12(%ebp)
-    call prebroji
-    movl %eax,    %ecx
-    addl $8,      %esp # oslobadjanje steka
+    addl $8,      %esp       # oslobadjanje steka
 
 uporedi_broj_pluseva_minusa:
-    cmpl %ecx,    %ebx
+    cmpl %ecx,    %eax
     ja manjeMinusa
     jb manjePluseva
     je istiBroj
@@ -47,8 +47,10 @@ istiBroj:
     movl $3, %edx
 
 kraj:
+    # ne moze se u adresu upisati vrednost!
     movl 16(%ebp),  %esi
     movl %edx,     (%esi)
+
     # restauracija registara
     popl %edi
     popl %esi
