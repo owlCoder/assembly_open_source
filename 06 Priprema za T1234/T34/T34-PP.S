@@ -7,10 +7,12 @@
 potprogram:                # naziv potprograma
     pushl %ebp             # početak potprograma
     movl  %esp,     %ebp
+
+    # registri koji se koriste se šalju na stek
     pushl %ebx
-    pushl %edx
-    
-    movl 16(%ebp),  %edx     # rezultat
+    pushl %esi
+    pushl %edi
+
     movl $0,        %ebx     # broj pluseva
     movl $0,        %ecx     # broj minusa
 
@@ -20,18 +22,18 @@ init_first_string:
     addl $20,      %edi    # kraj stringa
 
 prebroj_S1:
-    cmpl %edi, %esi # da li smo stigli do kraja stringa
+    cmpl %esi, %edi        # da li smo stigli do kraja stringa
     jne broj_pluseve
     je init_second_string
 
 broj_pluseve:
-    movb (%esi),    %dl # sačuvaj trenutni element u manji registar
-    cmpb $'+',      %dl # da li je to znak + ?
+    movb (%esi),   %dl     # sačuvaj trenutni element u manji registar
+    cmpb $'+',     %dl     # da li je to znak + ?
     je pronadjenPlus
     jmp uvecaj_adresu_S1
 
 pronadjenPlus:
-    incl %ebx
+    addl $1,  %ebx         # broj pluseva uvecaj za 1
 
 uvecaj_adresu_S1:
     addl $1, %esi
@@ -44,18 +46,18 @@ init_second_string:
     addl $20,       %edi    # kraj stringa
 
 prebroj_S2:
-    cmpl %edi, %esi         # da li smo stigli do kraja stringa
+    cmpl %esi, %edi         # da li smo stigli do kraja stringa
     jne broj_minuse
     je uporedi_broj_pluseva_minusa
 
 broj_minuse:
     movb (%esi),    %dl     # sačuvaj trenutni element u manji registar
-    cmpb $'-',      %dl     # da li je to znak - ?
+    cmpb  $'-',     %dl     # da li je to znak - ?
     je pronadjenMinus
     jmp uvecaj_adresu_S2
 
 pronadjenMinus:
-    incl %ecx
+    addl $1,  %ecx         # broj minusa uvecaj za 1
 
 uvecaj_adresu_S2:
     addl $1, %esi
@@ -79,8 +81,13 @@ istiBroj:
     movl $3, %edx
 
 kraj:
-    popl %edx
+    movl 16(%ebp), %esi
+    movl %edx,     (%esi)
+    # restauracija registara
+    popl %edi
+    popl %esi
     popl %ebx
+
     movl %ebp, %esp
     popl %ebp
     ret

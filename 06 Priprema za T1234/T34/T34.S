@@ -53,8 +53,6 @@ main:
     call potprogram         # poziv potprograma
     addl $12,      %esp     # oslobadjanje steka
 
-    movl %eax, R            # rezultat smesti u promenljivu R
-
 kraj:
     movl $1, %eax
     movl R,  %ebx
