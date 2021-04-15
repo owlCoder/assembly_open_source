@@ -8,7 +8,11 @@
 prebroji:
     pushl %ebp              # početak potprograma
     movl  %esp,     %ebp
+
+    # registri koji se koriste
     pushl %ebx
+    pushl %esi
+    pushl %edi
     subl  $4,       %esp    # prostor za lokalnu promenljivu
    
     movl 12(%ebp),  %ebx    # znak koji trazimo
@@ -37,7 +41,12 @@ uvecaj_adresu:
 
 kraj:
     movl -4(%ebp),  %eax    # broj pojava je povr. vrednost f-je
+
+    # restauracija registara
+    popl %edi
+    popl %esi
     popl %ebx
+
     movl %ebp, %esp
     popl %ebp
     ret
