@@ -3,10 +3,7 @@
 .section .text
 
 .global SaberiMnozi
-
-# int SaberiMnozi(int n, unsigned short *a, unsigned short *b,
-#		  unsigned short *resenje);
-
+					   # int SaberiMnozi(int n, unsigned short *a, unsigned short *b, unsigned short *resenje);
 SaberiMnozi:
 	pushl %ebp             		   # početak potprograma
     	movl  %esp,     %ebp               # sacuvaj %esp
@@ -54,37 +51,37 @@ saberi:					   # carry flag za neoznacene brojeve
 
 
 prekoracenje:
-	movl   %edx,    %ebx  		  # smesti adresu trenutnog elementa niza resenje
-	movw $11111,    %ax    		  # vrednost koja se postavi ako je doslo do prekoracenja
-	movw  %ax,    (%ebx)   		  # vrednost smesti na odgovarajucu poziciju u nizu resenje 
-    incl       -4(%ebp)	   		  # vred. prekoracenja za 1 veca
-	jmp uvecaj_adrese	  	  # svakako prelazimo na sledeci element niza
+	movl   %edx,    %ebx  		   # smesti adresu trenutnog elementa niza resenje
+	movw $11111,    %ax    		   # vrednost koja se postavi ako je doslo do prekoracenja
+	movw  %ax,    (%ebx)   		   # vrednost smesti na odgovarajucu poziciju u nizu resenje 
+    incl       -4(%ebp)	   		   # vred. prekoracenja za 1 veca
+	jmp uvecaj_adrese	  	   # svakako prelazimo na sledeci element niza
 
 uvecaj_adrese:
-	addl $2,      %esi	 	  # 2 jer su word nizovi
-	addl $2, 	  %edi	 	  # 2 jer su word nizovi
-	addl $2,      %edx    		  # 2 jer su word nizovi
-	incl 		  %ecx	 	  # predji na sledeci element niza
+	addl $2,      %esi	 	   # 2 jer su word nizovi
+	addl $2, 	  %edi	 	   # 2 jer su word nizovi
+	addl $2,      %edx    		   # 2 jer su word nizovi
+	incl 		  %ecx	 	   # predji na sledeci element niza
 	
-	cmpl $1,   -8(%ebp)    		  # ako je paran indeks
-	je paran_u_neparan    		  # paran indeks -> neparan indeks tj. paran = 0
-	jb neparan_u_paran	  	  # neparan indeks -> paran indeks tj. paran = 1
+	cmpl $1,   -8(%ebp)    		   # ako je paran indeks
+	je paran_u_neparan    		   # paran indeks -> neparan indeks tj. paran = 0
+	jb neparan_u_paran	  	   # neparan indeks -> paran indeks tj. paran = 1
 
 paran_u_neparan:
-	movl $0,   -8(%ebp)	  	  # sledeci indeks je neparan
-	jmp provera			  # povratak na proveru niza
+	movl $0,   -8(%ebp)	  	   # sledeci indeks je neparan
+	jmp provera			   # povratak na proveru niza
 
 neparan_u_paran:
-	movl $1,   -8(%ebp)	   	  # sledeci indeks je paran
-	jmp provera			  # povratak na proveru niza
+	movl $1,   -8(%ebp)	   	   # sledeci indeks je paran
+	jmp provera			   # povratak na proveru niza
 
 kraj:
-	movl -4(%ebp), %eax    		  # broj prekoracenja je povr. vr. fje
-	popl 	%edx		  	  # restauracija registra
-	popl	%edx		  	  # restauracija registra
-	popl 	%ebx          		  # restauracija registra
-	popl 	%edi           		  # restauracija registra
-	popl 	%esi           		  # restauracija registra
-    movl 	%ebp,  %esp               # vrati stari %ebp u %esp
-	popl 	%ebp           		  # restauracija registra
-	ret				  # povratak u glavni program
+	movl -4(%ebp), %eax    		   # broj prekoracenja je povr. vr. fje
+	popl 	%edx		  	   # restauracija registra
+	popl	%edx		  	   # restauracija registra
+	popl 	%ebx          		   # restauracija registra
+	popl 	%edi           		   # restauracija registra
+	popl 	%esi           		   # restauracija registra
+    movl 	%ebp,  %esp                # vrati stari %ebp u %esp
+	popl 	%ebp           		   # restauracija registra
+	ret				   # povratak u glavni program

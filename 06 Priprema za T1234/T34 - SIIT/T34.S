@@ -30,16 +30,16 @@
 .global main
 
 main:
-	pushl $resenje			# stavljanje na stek
+	pushl $resenje				# stavljanje na stek
 	pushl $b				# stavljanje na stek
 	pushl $a				# stavljanje na stek
 	pushl $n				# stavljanje na stek
-	call SaberiMnozi		# poziv potprograma
-	addl  $16,  	%esp	# oslobadjanje steka
+	call SaberiMnozi			# poziv potprograma
+	addl  $16,  	%esp			# oslobadjanje steka
 	
-	movl %eax,  pov_vre 	# povratna vrednost je broj prekoracenja koji se desio
-							# u potprogramu
+	movl %eax,  pov_vre 			# povratna vrednost je broj prekoracenja koji se desio
+						# u potprogramu
 kraj:
-	movl $1,	    %eax
+	movl $1,        %eax
 	movl pov_vre,	%ebx
 	int  $0x80
