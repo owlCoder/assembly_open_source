@@ -15,6 +15,7 @@ SetParity:
                         #ne posmatra prilikom određivanja pariteta)
     movw $1, %dx        #inicijalna maska
     xorl %eax, %eax     #brojač bita
+    
 parity_petlja:
     testw %dx, (%ecx)
     jz parity_dalje
