@@ -14,20 +14,20 @@ pomnozi:
 
 	subl  $4,        %esp 		   # prostor za lokalne promenljive
 
-	movl  8(%ebp),	 %ebx	       # prvi broj
+	movl  8(%ebp),	 %ebx	           # prvi broj
 	movl    %ebx, -4(%ebp)		   # prvi broj
 	movl 12(%ebp),   %ebx		   # drugi broj
 	movl  $0,        %eax 		   # proizvod
 
 provera:
 	cmpl  $0,     -4(%ebp)		   # da li smo a puta dodali b u sumu ?
-	je  kraj			           # sve je okej pomnozeno bez prekoracenja
+	je  kraj			   # sve je okej pomnozeno bez prekoracenja
 	jmp dodaj
 
 dodaj:
 	addw   %bx,   %ax
 	decl -4(%ebp)
-	jnc provera			           # nema prekoracenja nastavi dalje
+	jnc provera			   # nema prekoracenja nastavi dalje
 	jc  prekoracenje
 
 prekoracenje:

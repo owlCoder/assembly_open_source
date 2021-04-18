@@ -35,14 +35,14 @@ main:
 	movl $max_str, %edx
 	int  $0x80
 
-	# broj ucitanih karaktera se nalazi u registru %eax
-	movl %eax,     uneto_char
-	decl uneto_char		# potrebni su samo korisni znaci
+	
+	movl %eax,     uneto_char  # broj ucitanih karaktera se nalazi u registru %eax
+	decl uneto_char		       # potrebni su samo korisni znaci
     movl uneto_char, %eax
 
 da_li_je_paran_broj_karaktera:
-	subl $2, 	   %eax   # u %eax se vec nalazi broj ucitanih karaktera
-	cmpl $1,	   %eax   # da li ostatak 1 ili 0
+	subl $2, 	   %eax        # u %eax se vec nalazi broj ucitanih karaktera
+	cmpl $1,	   %eax        # da li ostatak 1 ili 0
 	je neparno
 	jb parno
 	jmp da_li_je_paran_broj_karaktera
@@ -55,10 +55,10 @@ neparno:
 	movl $0, 	   paran
 
 set_registers:
-	movl $unos,	      %esi   # pocetak stringa
+	movl $unos,	      %esi     # pocetak stringa
     movl $unos,       %edi
 	
-	cmpb $1, paran   # da li je broj karaktera paran?
+	cmpb $1, paran   		   # da li je broj karaktera paran?
 	je do_kraja
 	jb manje_jedan
 
@@ -67,31 +67,30 @@ do_kraja:
 	jmp swap_chars
 
 manje_jedan:
-	movl uneto_char,  %eax	# nema 2 pristupa memoriji
-	decl %eax			    # neparan broj karaktera
-	addl %eax,        %edi	# ne ide se do kraja stringa
+	movl uneto_char,  %eax	   # nema 2 pristupa memoriji
+	decl %eax			       # neparan broj karaktera
+	addl %eax,        %edi	   # ne ide se do kraja stringa
 
 provera:
-	cmpl %esi, %edi  		# da li smo stigli do kraja stringa ?
+	cmpl %esi, %edi  		   # da li smo stigli do kraja stringa ?
 	je ispisi_modifikovanog_stringa
 	jne swap_chars
 
 swap_chars:
-	movl  %esi,	  %eax      # sacuvaj adresu trenutnog karaktera
-	movb (%eax),  %cl		# cuvaj vrednost prvog karaktera
-	incl  %esi				# predji na sledeci element
-	movl  %esi,	  %ebx      # sacuvaj adresu trenutnog karaktera
+	movl  %esi,	  %eax         # sacuvaj adresu trenutnog karaktera
+	movb (%eax),  %cl		   # cuvaj vrednost prvog karaktera
+	incl  %esi				   # predji na sledeci element
+	movl  %esi,	  %ebx         # sacuvaj adresu trenutnog karaktera
 	movb (%ebx),  %dl
 
-	xchgb  %dl,  (%eax)		# prepisi vrednost drugog na vrednost prvog
-	xchgb  %cl,  (%ebx)		# prepisi vrednost prvog na vrednost drugog
+	xchgb  %dl,  (%eax)		   # prepisi vrednost drugog na vrednost prvog
+	xchgb  %cl,  (%ebx)		   # prepisi vrednost prvog na vrednost drugog
 
-	incl %esi				# predji na sledeci element
+	incl %esi				   # predji na sledeci element
 	jmp provera
 
 ispisi_modifikovanog_stringa:
-	# ispis modifikovanog stringa
-	incl uneto_char			# vracanje na prvobitnu vrednost
+	incl uneto_char			   # vracanje na prvobitnu vrednost
 	movl $4,	 	  %eax
 	movl $1,	 	  %ebx
 	leal unos,   	  %ecx
@@ -102,4 +101,3 @@ kraj:
 	movl $1, 	   %eax
 	movl $0, 	   %ebx
 	int  $0x80
-
