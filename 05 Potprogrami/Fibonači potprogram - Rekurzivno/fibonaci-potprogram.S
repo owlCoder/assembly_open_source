@@ -1,4 +1,4 @@
-#potprogram za racunjanje fibonacijevog broja
+# Potprogram za racunjanje fibonacijevog broja
 .section .data
     str: .ascii "AAAA\0"
 .section .text
