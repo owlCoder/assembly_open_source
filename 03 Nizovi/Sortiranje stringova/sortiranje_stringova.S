@@ -81,6 +81,7 @@ zameni:
     movb %ah, (%esi,%edi,1)         # zamena dva znaka
     movb %al, str_len(%esi,%edi,1)
     jmp zameni
+
 sledeci:
     addl $str_len, currents     # prelazak na sledeći par stringova
     incl currentn
@@ -89,7 +90,7 @@ sledeci:
     cmpb $0, zamena        # ako je bila zamena, prođi ponovo kroz niz stringova
     jne sortiranje
 
-    #ispis stringova
+    # ispis stringova
     movl $4, %eax          # ispis poruke
     movl $1, %ebx
     movl $str_ispis, %ecx

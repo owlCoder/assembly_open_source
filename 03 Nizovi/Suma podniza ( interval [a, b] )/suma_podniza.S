@@ -13,15 +13,15 @@ main:
 
 sumiranje:
     addl niz_l(, %esi, 4), %eax
-    incl %esi               # sledeci indeks
+    incl %esi                # sledeci indeks
 
-    cmpl %ebx, %esi         # kraj podniza?
+    cmpl %ebx, %esi          # kraj podniza?
     jns kraj
 
     jmp sumiranje
 
 kraj:
-    movl %eax, suma         # iz registra u sumu
+    movl %eax, suma          # iz registra u sumu
     movl $1, %eax
     movl $0, %ebx
     int $0x80

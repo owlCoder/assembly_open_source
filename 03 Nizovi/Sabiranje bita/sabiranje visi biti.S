@@ -27,7 +27,7 @@ poredi:
 	
 sumiraj:
 	addw niz(, %esi, 2), %bx	# sabiraju se reci na long-ovi!
-	incl %esi                       # mora se svakako preci na sledeci element
+	incl %esi                   # mora se svakako preci na sledeci element
 	jmp petlja
 	
 kraj:
