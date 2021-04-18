@@ -7,10 +7,11 @@
 SaberiMnozi:
 	pushl %ebp             		   # početak potprograma
     	movl  %esp,      %ebp              # sacuvaj %esp
-	subl  $12,       %esp   	   # lokalna promenljiva nekorektni, parno
+	subl  $16,       %esp   	   # lokalna promenljiva nekorektni, parno
 	movl  $0,      -4(%ebp)	           # nekorektni = 0
 	movl  $1,      -8(%ebp) 	   # prvi indeks je uvek paran
 	movl  $0,     -12(%ebp) 	   # privremena promenljiva za povratnu vrednost fje pomnozi()
+	movl  $0,     -16(%ebp)		   # promenljiva prekoracenja (samo za za potprogram pomnozi())
 
 	pushl %esi			   # registar potreban za rad
 	pushl %edi			   # registar potreban za rad
@@ -35,13 +36,17 @@ sab_ili_mnozi:
 mnozi:					   # carry flag za neoznacene brojeve
 	movw  (%esi),    %ax  	           # sacuvaj prvu vrednost u 16-bitni registar
 	
-	pushl (%edi)
-	pushl  %eax	
+	pushl -16(%ebp)			   # promenljiva prekoracenja
+	pushl (%edi)			   # cdecl !
+	pushl  %eax			   # sa desna ulevo
 	call pomnozi			   # poziv potprograma za mnozenje sabiranjem
 	addl $8,      %esp		   # oslobadjanje steka
 
 	movl   %edx,    %ebx   		   # smesti adresu trenutnog elementa niza resenje		   	   
 	movw   %ax,    (%ebx)		   # izracunatu vrednost smesti na odgovarajucu poziciju u nizu resenje 
+	
+	cmpw   $11111,  %ax		   # u slucaju da se u toku sabiranja desilo prekoracenje vrednost %ax je 11111
+	je uvecaj_nekorektni		   # broj nekorektnih uvecava za 1
 	jmp uvecaj_adrese     		   # nema prekoracenja, prelazimo na sledeci element
 
 saberi:					   # carry flag za neoznacene brojeve
@@ -52,6 +57,10 @@ saberi:					   # carry flag za neoznacene brojeve
 	
 	movw  %ax,    (%ebx)  	           # izracunatu vrednost smesti na odgovarajucu poziciju u nizu resenje 
 	jmp uvecaj_adrese	   	   # nema prekoracenja, prelazimo na sledeci element
+
+uvecaj_nekorektni:
+	incl         -4(%ebp)		   # vred. prekoracenja za 1 veca
+	jmp uvecaj_adrese	  	   # svakako prelazimo na sledeci element niza
 
 
 prekoracenje:
