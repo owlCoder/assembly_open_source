@@ -5,7 +5,7 @@
     greska: .byte 0
 .section .text
 
-.globl main
+.global main
 
 main:
     movb $0,      greska 
@@ -21,8 +21,8 @@ kraj:
     movl $1, %ebx
     int $0x80
 
-#(gdb) info register eax ebx ecx edx
-# eax            0x7fff   32767     # rezultat oduzimanja
-# ebx            0x0      0
-# ecx            0x46910ec5       1183911621
-# edx            0x0      0
+# (gdb) info register eax ebx ecx edx
+#  eax            0x7fff   32767     # rezultat oduzimanja
+#  ebx            0x0      0
+#  ecx            0x46910ec5       1183911621
+#  edx            0x0      0

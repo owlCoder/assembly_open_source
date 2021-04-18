@@ -5,26 +5,26 @@
     greska: .byte  0x0
 .section .text
 
-.globl main
+.global main
 
 main: 
-    movl prvi,  %eax      # prvi broj
-    movl drugi, %ebx      # drugi broj
-    movl $0,    %ecx      # količnik
+    movl prvi,  %eax    # prvi broj
+    movl drugi, %ebx    # drugi broj
+    movl $0,    %ecx    # količnik
 
 provera:
-    cmpl %eax, %ebx     # proveri da li je razlika negativna
+    cmpl %eax,  %ebx    # proveri da li je razlika negativna
     jbe podeli          # ako nije podeli
 
-    movl %eax, %edx     # u suprotnom drugi broj je veći od prvog
+    movl %eax,  %edx    # u suprotnom drugi broj je veći od prvog
                         # pa je to ujedno i ostatak deljenja
     jmp kraj            # kraj programa
 
 podeli:
-    subl %ebx, %eax     # smanji prvi broj za drugi broj
-    addl $1, %ecx       # količnik uvećaj za 1
+    subl %ebx,  %eax    # smanji prvi broj za drugi broj
+    addl $1,    %ecx    # količnik uvećaj za 1
 
-    sbbl %eax, %ecx     # oduzmi ako je došlo do pozajmice
+    sbbl %eax,  %ecx    # oduzmi ako je došlo do pozajmice
 
     jmp provera         # proveri da li se može deliti dalje
 

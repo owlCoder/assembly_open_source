@@ -5,13 +5,13 @@
     greska: .byte  0x0
 .section .text
 
-.globl main
+.global main
 
 main: 
-    movl prvi,  %eax      # prvi broj
-    movl drugi, %ebx      # drugi broj
-    movl $0,    %ecx      # proizvod
-    jmp pomnozi;          # izvrši petlju (mislim da radi i bez ovoga)
+    movl prvi,  %eax    # prvi broj
+    movl drugi, %ebx    # drugi broj
+    movl $0,    %ecx    # proizvod
+    jmp pomnozi         # izvrši petlju (mislim da radi i bez ovoga)
 
 pomnozi:
     addl %eax, %ecx     # uvećaj sumu za prvi broj

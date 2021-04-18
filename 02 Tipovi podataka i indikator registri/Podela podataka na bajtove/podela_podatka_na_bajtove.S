@@ -19,8 +19,7 @@ kraj:
     int $0x80
 
 # (gdb) info register ah al bh bl
-# ah             0x78     120
-# al             0x56     86
-# bh             0x34     52
-# bl             0x12     18
-##################################
+#  ah             0x78     120
+#  al             0x56     86
+#  bh             0x34     52
+#  bl             0x12     18
