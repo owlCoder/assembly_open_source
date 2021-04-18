@@ -3,64 +3,64 @@
 .section .text
 
 .global SaberiMnozi
-					   # int SaberiMnozi(int n, unsigned short *a, unsigned short *b, unsigned short *resenje);
+					  			   # int SaberiMnozi(int n, unsigned short *a, unsigned short *b, unsigned short *resenje);
 SaberiMnozi:
 	pushl %ebp             		   # početak potprograma
-    	movl  %esp,      %ebp              # sacuvaj %esp
+	movl  %esp,      %ebp          # sacuvaj %esp
 	subl  $16,       %esp   	   # lokalna promenljiva nekorektni, parno
-	movl  $0,      -4(%ebp)	           # nekorektni = 0
+	movl  $0,      -4(%ebp)	       # nekorektni = 0
 	movl  $1,      -8(%ebp) 	   # prvi indeks je uvek paran
 	movl  $0,     -12(%ebp) 	   # privremena promenljiva za povratnu vrednost fje pomnozi()
 	movl  $0,     -16(%ebp)		   # promenljiva prekoracenja (samo za za potprogram pomnozi())
 
-	pushl %esi			   # registar potreban za rad
-	pushl %edi			   # registar potreban za rad
-	pushl %ebx			   # registar potreban za rad
+	pushl %esi			  		   # registar potreban za rad
+	pushl %edi			   		   # registar potreban za rad
+	pushl %ebx			   		   # registar potreban za rad
 	
 	movl 12(%ebp), %esi    		   # prvi niz
-	movl 16(%ebp), %edi	  	   # drugi niz
-	movl 20(%ebp), %edx	   	   # treci niz za resenja
-    	movl $0,       %ecx	  	   # brojac
+	movl 16(%ebp), %edi	  	   	   # drugi niz
+	movl 20(%ebp), %edx	   	       # treci niz za resenja
+	movl $0,       %ecx	  	 	   # brojac
 	movl $0,       %eax    		   # povratna vrednost f-je
 
 provera:
 	cmpl %ecx,     8(%ebp) 		   # da li smo stigli do kraja niza
-	je kraj				   # ako je kraj niza, zavrsi potprogram
+	je kraj				           # ako je kraj niza, zavrsi potprogram
 	jne sab_ili_mnozi	           # ako nije kraj niza, nastavi dalje sa radom
 
 sab_ili_mnozi:
-	cmpl $1,    -8(%ebp)               # da li paran indeks trenutni koji se uporedjuje ?
-	je mnozi			   # ako jeste, elementi istog indeksa se mnoze
-	jne saberi			   # ako nije, elementi istog indeksa se sabiraju
+	cmpl $1,    -8(%ebp)           # da li paran indeks trenutni koji se uporedjuje ?
+	je mnozi			  	       # ako jeste, elementi istog indeksa se mnoze
+	jne saberi			           # ako nije, elementi istog indeksa se sabiraju
 
-mnozi:					   # carry flag za neoznacene brojeve
-	movw  (%esi),    %ax  	           # sacuvaj prvu vrednost u 16-bitni registar
+mnozi:					   		   # carry flag za neoznacene brojeve
+	movw  (%esi),    %ax  	       # sacuvaj prvu vrednost u 16-bitni registar
 	
-	pushl -16(%ebp)			   # promenljiva prekoracenja
-	pushl (%edi)			   # cdecl !
-	pushl  %eax			   # sa desna ulevo
-	call pomnozi			   # poziv potprograma za mnozenje sabiranjem
-	addl $8,      %esp		   # oslobadjanje steka
+	pushl -16(%ebp)			  	   # promenljiva prekoracenja
+	pushl (%edi)			       # cdecl !
+	pushl  %eax			           # sa desna ulevo
+	call pomnozi			       # poziv potprograma za mnozenje sabiranjem
+	addl $8,      %esp		       # oslobadjanje steka
 
 	movl   %edx,    %ebx   		   # smesti adresu trenutnog elementa niza resenje		   	   
 	movw   %ax,    (%ebx)		   # izracunatu vrednost smesti na odgovarajucu poziciju u nizu resenje 
 	
-	cmpw   $11111,  %ax		   # u slucaju da se u toku sabiranja desilo prekoracenje vrednost %ax je 11111
+	cmpw   $11111,  %ax		       # u slucaju da se u toku sabiranja desilo prekoracenje vrednost %ax je 11111
 	je uvecaj_nekorektni		   # broj nekorektnih uvecava za 1
 	jmp uvecaj_adrese     		   # nema prekoracenja, prelazimo na sledeci element
 
-saberi:					   # carry flag za neoznacene brojeve
-	movl  %edx,    %ebx	  	   # smesti adresu trenutnog elementa niza resenje
-	movw (%esi),    %ax	 	   # sacuvaj prvu vrednost u 16-bitni registar
-	addw (%edi),    %ax	   	   # dodaj vrednost trenutnog elementa drugog niza u 16-bitni register %ax
-	jc prekoracenje		 	   # kod neoznacenih brojeva, carry flag je 1 ako se desi prekoracenje
+saberi:					           # carry flag za neoznacene brojeve
+	movl  %edx,    %ebx	  	       # smesti adresu trenutnog elementa niza resenje
+	movw (%esi),    %ax	 	       # sacuvaj prvu vrednost u 16-bitni registar
+	addw (%edi),    %ax	   	       # dodaj vrednost trenutnog elementa drugog niza u 16-bitni register %ax
+	jc prekoracenje		 	       # kod neoznacenih brojeva, carry flag je 1 ako se desi prekoracenje
 	
-	movw  %ax,    (%ebx)  	           # izracunatu vrednost smesti na odgovarajucu poziciju u nizu resenje 
-	jmp uvecaj_adrese	   	   # nema prekoracenja, prelazimo na sledeci element
+	movw  %ax,    (%ebx)  	       # izracunatu vrednost smesti na odgovarajucu poziciju u nizu resenje 
+	jmp uvecaj_adrese	   	       # nema prekoracenja, prelazimo na sledeci element
 
 uvecaj_nekorektni:
 	incl         -4(%ebp)		   # vred. prekoracenja za 1 veca
-	jmp uvecaj_adrese	  	   # svakako prelazimo na sledeci element niza
+	jmp uvecaj_adrese	  	       # svakako prelazimo na sledeci element niza
 
 
 prekoracenje:
@@ -68,31 +68,31 @@ prekoracenje:
 	movw $11111,    %ax    		   # vrednost koja se postavi ako je doslo do prekoracenja
 	movw   %ax,    (%ebx)   	   # vrednost smesti na odgovarajucu poziciju u nizu resenje 
 	incl         -4(%ebp)		   # vred. prekoracenja za 1 veca
-	jmp uvecaj_adrese	  	   # svakako prelazimo na sledeci element niza
+	jmp uvecaj_adrese	  	       # svakako prelazimo na sledeci element niza
 
 uvecaj_adrese:
-	addl $2,      %esi	 	   # 2 jer su word nizovi
-	addl $2,      %edi	 	   # 2 jer su word nizovi
+	addl $2,      %esi	 	       # 2 jer su word nizovi
+	addl $2,      %edi	 	       # 2 jer su word nizovi
 	addl $2,      %edx    		   # 2 jer su word nizovi
-	incl 	      %ecx	 	   # predji na sledeci element niza
+	incl 	      %ecx	 	       # predji na sledeci element niza
 	
 	cmpl $1,   -8(%ebp)    		   # ako je paran indeks
 	je paran_u_neparan    		   # paran indeks -> neparan indeks tj. paran = 0
-	jb neparan_u_paran	  	   # neparan indeks -> paran indeks tj. paran = 1
+	jb neparan_u_paran	  	       # neparan indeks -> paran indeks tj. paran = 1
 
 paran_u_neparan:
-	movl $0,   -8(%ebp)	  	   # sledeci indeks je neparan
-	jmp provera			   # povratak na proveru niza
+	movl $0,   -8(%ebp)	  	       # sledeci indeks je neparan
+	jmp provera			           # povratak na proveru niza
 
 neparan_u_paran:
-	movl $1,   -8(%ebp)	   	   # sledeci indeks je paran
-	jmp provera			   # povratak na proveru niza
+	movl $1,   -8(%ebp)	   	       # sledeci indeks je paran
+	jmp provera			           # povratak na proveru niza
 
 kraj:
 	movl -4(%ebp), %eax    		   # broj prekoracenja je povr. vr. fje
 	popl 	%ebx          		   # restauracija registra
 	popl 	%edi           		   # restauracija registra
 	popl 	%esi           		   # restauracija registra
-    movl 	%ebp,  %esp                # vrati stari %ebp u %esp
+    movl 	%ebp,  %esp            # vrati stari %ebp u %esp
 	popl 	%ebp           		   # restauracija registra
-	ret				   # povratak u glavni program
+	ret				               # povratak u glavni program
