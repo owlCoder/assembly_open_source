@@ -23,7 +23,7 @@
 .section .text
 .global main
 
-main:                              ######## ISPIS msgIn ###########
+main:                                ######## ISPIS msgIn ###########
 	movl $4,     %eax                # Sistemski poziv za izlaz
 	movl $1,     %ebx                # Identifikacioni broj za STANDARDNI IZLAZ
 	leal msgIn,  %ecx                # ekvivalentno sa: movl $string, %ecx
@@ -48,9 +48,8 @@ provera:
     incl %ebx
     cmpl %ebx, %eax
     jg provera
-
-    # ako su se pokazivači susreli, 
-    # string jeste palindrom
+									# ako su se pokazivači susreli, 
+									# string jeste palindrom
 
 palindrom:
 	movl $4,    %eax                # Sistemski poziv za izlaz
