@@ -19,6 +19,7 @@ parity_petlja:
     testw %dx, (%ecx)
     jz parity_dalje
     incl %eax
+    
 parity_dalje:
     shlw $1, %dx        #sledeća bit pozicija
     jnc parity_petlja
@@ -28,6 +29,7 @@ parity_dalje:
     shrl $1, %eax       #registra eax (brojač bita)
     rcrw $1, (%ecx)     #u najviši bit 16-bitne promenljive
     popl %eax
+    
 parity_kraj:
     movl %ebp, %esp
     popl %ebp
@@ -43,6 +45,7 @@ SetParityArray:
     movl $0, -4(%ebp)
     pushl %esi          #ovaj registar ostaje sačuvan između poziva (cdecl)
     movl 8(%ebp), %esi  #pa će se koristiti kao pokazivač elemenata niza
+    
 paritya_petlja:
     cmpl $0, 12(%ebp)   #da li su obrađeni svi elementi?
     je paritya_kraj
@@ -52,14 +55,15 @@ paritya_petlja:
     andl %eax, %eax     #da li je postavljena jedinica za paritet?
     jz paritya_dalje
     incl -4(%ebp)
+    
 paritya_dalje:
     addl $2, %esi       #sledeći element
     decl 12(%ebp)       #broj elemenata se koristi kao brojač
     jmp paritya_petlja
+    
 paritya_kraj:
     popl %esi
     movl -4(%ebp), %eax
     movl %ebp, %esp
     popl %ebp
     ret
-
