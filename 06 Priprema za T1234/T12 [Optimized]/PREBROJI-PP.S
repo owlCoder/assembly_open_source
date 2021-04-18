@@ -3,13 +3,11 @@
 .section .text
 .global prebroji
 
-# unsigned int prebroji(char *str, char c);
-
+                            # unsigned int prebroji(char *str, char c);
 prebroji:
     pushl %ebp              # početak potprograma
     movl  %esp,     %ebp
-
-    # registri koji se koriste
+                            # registri koji se koriste
     pushl %ebx
     pushl %esi
     pushl %edi
@@ -42,7 +40,7 @@ uvecaj_adresu:
 kraj:
     movl -4(%ebp),  %eax    # broj pojava je povr. vrednost f-je
 
-    # restauracija registara
+                            # restauracija registara
     popl %edi
     popl %esi
     popl %ebx
