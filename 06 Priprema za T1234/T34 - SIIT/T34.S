@@ -21,8 +21,8 @@
 .section .data
 	n = 6
 
-	a: 		 .word 1, 2, 3, 4,  5,  6
-	b: 		 .word 0, 0, 2, 2, 10, 10
+	a: 		 .word 2, 2, 3, 4,  5,  6
+	b: 		 .word 65535, 65534, 2, 2, 10, 10
 	resenje: .fill n, 2, 0
 
 	pov_vre: .byte 0
