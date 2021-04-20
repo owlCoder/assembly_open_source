@@ -56,5 +56,5 @@ enkodovan_ispis:
 
 kraj:
     movl $1,            %eax
-    movl $0,            %ebx
+    movl brojIzmena,    %ebx
     int $0x80
