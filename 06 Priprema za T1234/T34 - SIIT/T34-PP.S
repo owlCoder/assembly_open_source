@@ -93,6 +93,6 @@ kraj:
 	popl 	%ebx          		   # restauracija registra
 	popl 	%edi           		   # restauracija registra
 	popl 	%esi           		   # restauracija registra
-    movl 	%ebp,  %esp                # vrati stari %ebp u %esp
+        movl 	%ebp,  %esp                # vrati stari %ebp u %esp
 	popl 	%ebp           		   # restauracija registra
 	ret				   # povratak u glavni program
