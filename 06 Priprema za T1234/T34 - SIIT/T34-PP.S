@@ -40,7 +40,7 @@ mnozi:					   # carry flag za neoznacene brojeve
 	pushl (%edi)			   # cdecl !
 	pushl  %eax			   # sa desna ulevo
 	call pomnozi			   # poziv potprograma za mnozenje sabiranjem
-	addl $8,      %esp		   # oslobadjanje steka
+	addl $12,      %esp		   # oslobadjanje steka
 
 	movl   %edx,    %ebx   		   # smesti adresu trenutnog elementa niza resenje		   	   
 	movw   %ax,    (%ebx)		   # izracunatu vrednost smesti na odgovarajucu poziciju u nizu resenje 
