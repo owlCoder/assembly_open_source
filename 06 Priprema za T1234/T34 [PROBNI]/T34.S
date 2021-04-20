@@ -36,6 +36,7 @@ main:
     # priprema za poziv potprograma
     pushl $unos
     call  Rot13
+    addl  $4,           %esp         # oslobadjanje steka
     movl  %eax,         brojIzmena
 
 enkodovan_ispis:
