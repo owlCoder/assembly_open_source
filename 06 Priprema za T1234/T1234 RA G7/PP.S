@@ -5,7 +5,7 @@
 # unsigned int modifikuj(char *string, char *znakovi)
 modifikuj:
     pushl %ebp
-    movl  %esp, 	    %ebp
+    movl  %esp, 	%ebp
 
     pushl %esi
     pushl %edi
@@ -21,7 +21,7 @@ krajStringa:
     je kraj
 
 malo_ili_veliko_slovo:
-    movb (%esi),	    %dl      # trenutni znak iz prvog stringa cuvamo
+    movb (%esi),	%dl      # trenutni znak iz prvog stringa cuvamo
     veliko_slovo:
         cmpb $'A',      %dl
         jl resetuj  	         # ako je manji od 'A' verovatno nije ni slovo
@@ -46,7 +46,7 @@ pretrazi_drugi_string_za_trazenim_znakom:
     cmpb $10,          (%edi)    # da li smo prosli ceo niz zadatakih karaktera
     je resetuj                   # ako jesmo ponovo krecemo otpocetka drugog stringa, i pomeramo se za 1 adresu
                                  # u prvom stringu
-    cmpb (%edi),	    %dl      # uporedi da li je trenutni znak iz drugog stringa jednak znaku iz prvog stringa (%dl)
+    cmpb (%edi),	%dl      # uporedi da li je trenutni znak iz drugog stringa jednak znaku iz prvog stringa (%dl)
     je promeniSlovo              # ako su jednaki +/- 32
     
     incl %edi                    # ako nisu, predji na sledeci trazeni znak iz drugog stringa
@@ -58,13 +58,13 @@ promeniSlovo:
     jl dodaj32
 
 oduzmi32:
-    subb $32,  (%esi)
-    incl 		%eax              # desila se izmena, uvecaj povratnu vrednost za 1
+    subb $32,          (%esi)
+    incl 		%eax      # desila se izmena, uvecaj povratnu vrednost za 1
     jmp resetuj
 
 dodaj32:
     addb $32, 	       (%esi)
-    incl 	            %eax	  # desila se izmena, uvecaj povratnu vrednost za 1
+    incl                %eax	  # desila se izmena, uvecaj povratnu vrednost za 1
     jmp resetuj
         
 resetuj:
@@ -77,6 +77,6 @@ kraj:
     popl %edi
     popl %esi
 
-    movl %ebp,		    %esp
+    movl %ebp,		%esp
     popl %ebp
     ret
