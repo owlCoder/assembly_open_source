@@ -1,5 +1,5 @@
 .section .data
-    krajnjaPoruka:  .ascii "String posle ciscenja razmaka:\n"    # ova poruka mora na vrhu, izaziva cudan overflow
+    krajnjaPoruka:  .ascii "String posle ciscenja razmaka:\n\0"    # ova poruka mora na vrhu, izaziva cudan overflow
     KPlen =         . - krajnjaPoruka                            # bafera ako nije na vrhu data sekcije? gcc powered
 
     max_u = 50
@@ -11,10 +11,10 @@
     noviRed:        .ascii "\n"
     nl = . - noviRed
 
-    pocetnaPoruka: .ascii "\nString pre ciscenja razmaka:\n"
+    pocetnaPoruka: .ascii "\nString pre ciscenja razmaka:\n\0"
     pRlen =        . - pocetnaPoruka
 
-    unos:          .ascii "\nUnesite jedan string sa razmacima na pocetku:\n"
+    unos:          .ascii "\nUnesite jedan string sa razmacima na pocetku:\n\0"
     unosLen =      . - unos
 
     first:         .byte 0
