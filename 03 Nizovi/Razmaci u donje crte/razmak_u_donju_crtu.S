@@ -5,10 +5,10 @@
 # prepraviti da prebroji koliko ima razmaka
 
 .section .data
-	poruka1: .ascii "Unesite string: "
+	poruka1: .ascii "Unesite string: \0"
 	poruka1_duzina = . - poruka1
 
-	poruka2: .ascii "Posle zamene: "
+	poruka2: .ascii "Posle zamene: \0"
 	poruka2_duzina = . - poruka2
 
 	unos_max = 20
