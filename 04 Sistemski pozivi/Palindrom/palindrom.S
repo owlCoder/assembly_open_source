@@ -11,13 +11,13 @@
     str_max = 20                   # Ukupan broj karaktera koji je dozvoljeno korisniku da unese 
 	string: .fill str_max, 1, 42     # '*'
 
-    msgIn: .ascii "Unesite string: "
+    msgIn: .ascii "Unesite string: \0"
 	len1 = . - msgIn                 # '.' predstavlja brojac lokacija
 
-    msgIs: .ascii "String je palindrom.\n"
+    msgIs: .ascii "String je palindrom.\n\0"
     len2 = . - msgIs               # '.' predstavlja brojac lokacija
 
-    msgNot: .ascii "String nije palindrom.\n"
+    msgNot: .ascii "String nije palindrom.\n\0"
     len3 = . - msgNot              # '.' predstavlja brojac lokacija
 
 .section .text
