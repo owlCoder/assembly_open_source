@@ -1,5 +1,5 @@
 # PR55-2020 Jovanovic Danijel
-# Cezarova šifra PSI-AR-G7
+# Šifra za Instagram PSI-AR-G10
 
 .section .data
     msg1:  .ascii "Unesite sifru: \0"
