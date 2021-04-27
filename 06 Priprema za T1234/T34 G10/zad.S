@@ -93,6 +93,7 @@ main:
 
     cmpl $8,        %eax
     jl main
+    jg main
 
     pushl $unos
     call sifra

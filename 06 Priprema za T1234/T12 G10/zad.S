@@ -42,6 +42,7 @@ main:
 
     cmpl $8,        %eax
     jl main
+    jg main
 
 init:
     movl $unos,     %esi
