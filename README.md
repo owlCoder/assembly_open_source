@@ -17,6 +17,7 @@ UVOD U ALGORITME
 └─── SOV
       07 Bit maske
       08 Interna konverzija
+      09 Priprema za SOV
 
 ```
 
