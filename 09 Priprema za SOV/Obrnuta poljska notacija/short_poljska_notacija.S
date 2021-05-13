@@ -44,7 +44,7 @@ main:
 
     # poljska notacija racunanje
     # unsigned int poljska_notacija(char *izraz);
-    # u %eax se nalazi rezultat ili -1 ako je nevalidan izraz
+    # u %eax se nalazi rezultat ili 0 ako je nevalidan izraz
     pushl $izraz
     call poljska_notacija
     addl $4,             %esp
