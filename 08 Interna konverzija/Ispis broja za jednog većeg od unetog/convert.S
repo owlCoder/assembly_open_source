@@ -45,25 +45,33 @@ konvertujBrojUString:
         _inicijalizuj:
             movl 12(%ebp),    %esi  # string u koji smeštamo rezultat
             movl 12(%ebp),    %edi  # string u koji smeštamo rezultat
-	        decl    %ebx            # smanji broj prebrojanih za 1
             addl    %ebx,     %edi  # kraj prvog stringa
+            decl    %edi
+            
+            # idemo samo do polovine stringa
+            movl    $2,		  %ecx
+            movl    %ebx,     %eax
+            xorl    %edx,	  %edx
+            divl    %ecx
+            xorl    %ebx,     %ebx
 
         obrni:
-            cmpl    %esi,    %edi   # kraj stringa?
+            cmpl    %eax,    %ebx   # kraj stringa?
             je kraj_konvertujBrojUString
 
             # zameni prvi i poslednji, ...
-            cmpb $0,         (%esi)   # da li je 0 ili prazan string?
+            cmpb $0,         (%esi)   # da li je prazan string?
             je kraj_konvertujBrojUString
 
-            movb   (%esi),   %bl
-            movb   (%edi),   %dl
+            movb   (%esi),   %dl
+            movb   (%edi),   %dh
 
-            movb    %bl,    (%edi)
-            movb    %dl,    (%esi)
+            movb    %dl,    (%edi)
+            movb    %dh,    (%esi)
 
             incl    %esi
             decl    %edi
+            incl    %ebx
             jmp obrni
     
 kraj_konvertujBrojUString:
