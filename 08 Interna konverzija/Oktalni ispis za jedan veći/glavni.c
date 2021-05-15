@@ -18,7 +18,7 @@ int main() {
     printf("\nGreska: %u\n",g);
     if (g == 0) {
         printf("Rezultat: %u\n",r);
-        printf("Broj za jedan veci od %u je: %s\n", r, jedanVeci); // dopuna programa
+        printf("Broj za jedan veci od %s je: %s\n", s, jedanVeci); // dopuna programa
     }
     else
         printf("Uneti broj nije oktalni!\n");

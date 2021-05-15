@@ -5,18 +5,16 @@
 konvertujBrojUString:
     pushl   %ebp
     movl    %esp,         %ebp
+    
     pushl   %esi
     pushl   %edi
     pushl   %ebx
 
     movl  8(%ebp),        %eax  # broj za konverziju
     movl 12(%ebp),        %esi  # string u koji smeštamo rezultat
-    movl $10,             %ecx  # baza
+    movl $8,              %ecx  # baza
     
-    movl     %eax,        %ebx
-    incl     %ebx
-    movl     %ebx,        %eax
-    # proveriti za incl %eax
+    incl 				  %eax  # za broj veci od unetog
 
     cifraToStr:
         xorl %edx,        %edx
@@ -31,7 +29,7 @@ konvertujBrojUString:
         jmp cifraToStr
 
     invertuj:
-        movl $0,          %ebx  # brojač lokacija povećaj za 1
+        movl $0,          %ebx  # brojač lokacija
         movl 12(%ebp),    %esi  # string u koji smeštamo rezultat
             
         nadjiKrajStringa:
