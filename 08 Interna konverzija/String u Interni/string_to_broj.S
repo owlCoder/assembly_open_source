@@ -68,7 +68,6 @@ negativan:
     jmp cifra
 
 pozitivan:
-    # movl $0,   -4(%ebp) # broj je pozitivan
     incl %esi           # predji na sledecu cifru
     jmp cifra
 

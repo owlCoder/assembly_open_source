@@ -20,7 +20,12 @@ proveriPredznak:
     movb (%esi), %bl
 
     andl  %eax,           %eax
-    js negativan
+    jns cifraToStr
+
+    movb $'-',   (%esi) # upisi minus kao predznak
+    incl %esi           # predji na sledecu cifru
+    incl 12(%ebp)
+    negl %eax
     # ako nema predznaka onda je pozitivan broj svakako
 
     cifraToStr:
@@ -79,14 +84,6 @@ proveriPredznak:
             decl    %edi
             incl    %ebx
             jmp obrni
-
-negativan:
-    movl $1,   -4(%ebp) # broj je negativan
-    movb $'-',   (%esi) # upisi minus kao predznak
-    incl %esi           # predji na sledecu cifru
-    incl 12(%ebp)
-    negl %eax
-    jmp cifraToStr
 
 kraj_konvertujBrojUString:
     popl %ebx

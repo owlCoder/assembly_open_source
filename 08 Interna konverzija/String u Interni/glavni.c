@@ -12,15 +12,19 @@ int main() {
     unsigned int g, baza;
     printf("Unesite brojnu osnovu sistema: ");
     scanf("%u", &baza);
+    while(baza < 1 || baza > 10) {
+        printf("Unesite brojnu osnovu sistema: ");
+        scanf("%u", &baza);
+    }
     printf("Unesite broj u brojevnoj osnovi %u: ", baza);
     scanf(" %30[^\n]s",s);
     r = str_to_inter(s,&g, baza);
-    konvertujBrojUString(r, broj, baza); // dopuna programa
+    konvertujBrojUString(r, broj, 10); // dopuna programa
     printf("\nGreska: %u\n",g);
     if (g == 0)
-        printf("Rezultat (u decimalnoj osnovi): %u\n",r);
-	// else if(g == 1)
-	//	printf("Broj %s nije unet u binarnoj bazi!\n", s); 
+        printf("Rezultat (u decimalnoj osnovi): %s\n", broj);
+	else if(g == 1)
+		printf("Broj %s nije unet u brojevnoj bazi %u!\n", s, baza); 
     #ifdef LEVEL42
     printf("\nRUNPP_REG_ERR:%d\n",RUNPP_REG_ERR);
     #endif
