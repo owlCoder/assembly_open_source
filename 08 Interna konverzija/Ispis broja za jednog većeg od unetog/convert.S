@@ -1,27 +1,39 @@
 .section .text
 .global konvertujBrojUString
 
-# void konvertujBrojUString(unsigned int broj, char *izrazZaIspis);
+# unsigned int konvertujBrojUString(unsigned int broj, char *izrazZaIspis, unsigned int baza);
 konvertujBrojUString:
     pushl   %ebp
     movl    %esp,         %ebp
+    
+    subl    $4,			  %esp
+    
     pushl   %esi
     pushl   %edi
     pushl   %ebx
 
     movl  8(%ebp),        %eax  # broj za konverziju
     movl 12(%ebp),        %esi  # string u koji smeštamo rezultat
-    movl $10,             %ecx  # baza
-    
-    movl     %eax,        %ebx
-    incl     %ebx
-    movl     %ebx,        %eax
-    # proveriti za incl %eax
+    movl 16(%ebp),        %ecx  # baza
+    incl    %eax
+
+proveriPredznak:
+    movb (%esi), %bl
+
+    andl  %eax,           %eax
+    jns cifraToStr
+
+    movb $'-',   (%esi) # upisi minus kao predznak
+    incl %esi           # predji na sledecu cifru
+    incl 12(%ebp)
+    negl %eax
+    # ako nema predznaka onda je pozitivan broj svakako
 
     cifraToStr:
         xorl %edx,        %edx
         divl %ecx
                                 # u %edx se nalazi ostatak deljenja
+        
         addb $'0',        %dl
         movb %dl,        (%esi)
         incl %esi               # predji na sledeci element niza
@@ -31,7 +43,7 @@ konvertujBrojUString:
         jmp cifraToStr
 
     invertuj:
-        movl $0,          %ebx  # brojač lokacija povećaj za 1
+        movl $0,          %ebx  # brojač lokacija
         movl 12(%ebp),    %esi  # string u koji smeštamo rezultat
             
         nadjiKrajStringa:
@@ -73,7 +85,7 @@ konvertujBrojUString:
             decl    %edi
             incl    %ebx
             jmp obrni
-    
+
 kraj_konvertujBrojUString:
     popl %ebx
     popl %edi

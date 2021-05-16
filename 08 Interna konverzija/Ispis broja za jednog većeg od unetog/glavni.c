@@ -1,27 +1,30 @@
 #include <stdio.h>
-#include <string.h>
 
 unsigned int RUNPP_REG_ERR = 0;
 
-unsigned int oct_str_to_inter(char* str, unsigned int* greska);
-void konvertujBrojUString(unsigned int broj, char *izrazZaIspis); // dopuna programa
+int str_to_inter(char* str, unsigned int* greska, unsigned int baza);
+void konvertujBrojUString(unsigned int broj, char *izrazZaIspis, unsigned int baza); // dopuna programa
 
 int main() {
     unsigned int r;
     char s[30]={0};
-    char jedanVeci[30]={0};
-    unsigned int g;
-    printf("Unesite broj u oktalnoj osnovi: ");
-    scanf("%30[^\n]s",s);
-    r = oct_str_to_inter(s,&g);
-    konvertujBrojUString(r, jedanVeci); // dopuna programa
-    printf("\nGreska: %u\n",g);
-    if (g == 0) {
-        printf("Rezultat: %u\n",r);
-        printf("Broj za jedan veci od %u je: %s\n", r, jedanVeci); // dopuna programa
+    char broj[30]={0};
+    unsigned int g, baza;
+    printf("Unesite brojnu osnovu sistema: ");
+    scanf("%u", &baza);
+    while(baza < 2 || baza > 10) {
+        printf("Unesite brojnu osnovu sistema: ");
+        scanf("%u", &baza);
     }
-    else
-        printf("Uneti broj nije oktalni!\n");
+    printf("Unesite broj u brojevnoj osnovi %u: ", baza);
+    scanf(" %30[^\n]s",s);
+    r = str_to_inter(s,&g, baza);
+    konvertujBrojUString(r, broj, 10); // dopuna programa
+    printf("\nGreska: %u\n",g);
+    if (g == 0)
+        printf("Jedan veci od %s (u decimalnoj osnovi) je: %s\n", s, broj);
+	else if(g == 1)
+		printf("Broj %s nije unet u brojevnoj bazi %u!\n", s, baza); 
     #ifdef LEVEL42
     printf("\nRUNPP_REG_ERR:%d\n",RUNPP_REG_ERR);
     #endif
