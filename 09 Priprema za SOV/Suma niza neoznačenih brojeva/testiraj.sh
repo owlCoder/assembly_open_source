@@ -62,7 +62,7 @@ EOL
 
 OUTP02=$(cat <<EOL
 Unesite izraz: [1,2000000000,]{2000000000,2000000000,294967295,4294967295,}
-Sume su jednake.
+Sume su jednake.  
 Suma: 0xFFFFFFFF
 EOL
 )

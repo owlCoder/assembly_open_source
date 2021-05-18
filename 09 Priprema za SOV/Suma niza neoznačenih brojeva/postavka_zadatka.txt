@@ -1,0 +1,42 @@
+# Zadatak:
+# Napisati asemblerski program koji računa sumu brojeva koji 
+# se nalaze u datom opsegu, kao i sumu brojeva koji se nalaze 
+# van datog opsega. Manju od te dve sume treba ispisati na ekran 
+# u heksadecimalnom formatu.
+
+# Format unosa je sledeći:
+# •	U uglastim zagradama je naveden opseg. Opseg je
+# inkluzivan—donja i gornja granica ulaze u opseg. 
+# Granice su zadate kao neoznačeni 32-bitni celi brojevi u 
+# dekadnom brojnom sistemu, gde iza svakog broja sledi znak zarez „,“. Smatrati da se neće unositi vrednosti tako da donja granica bude veća od gornje.
+# •	Posle opsega sledi par vitičastih zagrada u kojima se 
+# nalazi niz neoznačenih 32-bitnih celih brojeva u dekadnom brojnom sistemu. Iza svakog broja sledi znak zarez „,“.
+# •	Karakteri koji stoje iza zatvorene vitičaste zagrade se 
+# ne posmatraju.
+# •	Maksimalna dužina unosa je 100 karaktera. Smatrati da 
+# neće biti uneto više od 10 elemenata niza. Smatrati da će neophodne zagrade i zarezi uvek biti prisutni.
+# Na primer:
+# [5,10,]{1,3,5,7,10,25,30,}ostatak se ne posmatra
+
+# Ukoliko dođe do prekoračenja prilikom računanja sume, 
+# treba ispisati poruku greska1.
+# Ukoliko dođe do greške prilikom konverzije brojeva iz
+# stringa u interni oblik, treba ispisati poruku greska2.
+# Izlazni kod programa treba da bude 0 ako nije bilo greške, 
+# odnosno 1 ako jeste.
+
+# Primer interakcije sa programom:
+
+# Unesite izraz: [5,10,]{1,3,5,7,10,25,30,}dodatak
+# Suma brojeva u opsegu je manja.
+# Suma: 0x16
+
+# Unesite izraz: [1,2000000000,]{2000000000,2000000000,294967295,4294967295,}
+# Sume su jednake.
+# Suma: 0xFFFFFFFF
+
+# Unesite izraz: [5,10,]{1,3,5,7,10,25,4294967295,}dodatak
+# GRESKA: Prekoracenje prilikom racunanja sume.
+
+# Unesite izraz: [5,10,]{1,3,5,7,10,25,4294967296,}dodatak    
+# GRESKA: Problem prilikom konverzije brojeva.
