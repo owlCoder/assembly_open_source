@@ -17,46 +17,46 @@ konvertujUHeksaBroj:
     movl 16(%ebp),        %ecx  # baza
 
 proveriPredznak:
-    movb (%esi),          %bl
+  #  movb (%esi),          %bl
 
-    andl  %eax,           %eax
-    jns cifraToStr
+   # andl  %eax,           %eax
+  #  jns cifraToStr
 
-    movb $'-',   (%esi) # upisi minus kao predznak
-    incl %esi           # predji na sledecu cifru
-    incl 12(%ebp)
+   # movb $'-',   (%esi) # upisi minus kao predznak
+   # incl %esi           # predji na sledecu cifru
+    # incl 12(%ebp)
     
-    negl %eax
+   # negl %eax
     # ako nema predznaka onda je pozitivan broj svakako
 
     cifraToStr:
-        xorl %edx,        %edx
+        xorl %edx,      %edx
         divl %ecx
                                 # u %edx se nalazi ostatak deljenja 
-        cmpb $10,       (%esi)
+        cmpb $10,       %dl
         je hex_A
 
-        cmpb $11,       (%esi)
+        cmpb $11,       %dl
         je hex_B
 
-        cmpb $12,       (%esi)
+        cmpb $12,       %dl
         je hex_C
 
-        cmpb $13,       (%esi)
+        cmpb $13,       %dl
         je hex_D
 
-        cmpb $14,       (%esi)
+        cmpb $14,       %dl
         je hex_E
 
-        cmpb $15,       (%esi)
+        cmpb $15,       %dl
         je hex_F
 
         addb $'0',        %dl
         movb %dl,        (%esi)
 
         provera:
-            incl %esi               # predji na sledeci element niza
-            andl %eax,        %eax  # ceo rezultat smo konvertovali ?
+            incl %esi                   # predji na sledeci element niza
+            andl %eax,           %eax  # ceo rezultat smo konvertovali ?
             jz invertuj
             jmp cifraToStr
 
@@ -69,11 +69,11 @@ proveriPredznak:
             jmp provera
 
         hex_C:
-            movb $'C',           (%esi)
+            movb $'C',          (%esi)
             jmp provera
 
         hex_D:
-            movb $'D',           (%esi)
+            movb $'D',          (%esi)
             jmp provera
 
         hex_E:
