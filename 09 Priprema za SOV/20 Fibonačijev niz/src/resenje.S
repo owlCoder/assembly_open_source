@@ -1,16 +1,16 @@
 .section .data
-ispis1:     .ascii "Unseite logicki izraz: \0"
-ispis2:     .ascii "Rezultat: \0"
-greska1:    .ascii "Greska kod operanda.\n\0"
-greska2:    .ascii "Greska kod operacije.\n\0"
+ispis1:     .ascii "Unesite brojeve: \0"
+ispis2:     .ascii "Brojevi su fibonacijava sekvenca.\n\0"
+ispis3:     .ascii "Brojevi nisu fibonacijava sekvenca.\n\0"
+greska1:    .ascii "Greska: pogresna cifra.\n\0"
+greska2:    .ascii "Greska: prekoracenje.\n\0"
 newlin:     .ascii "\n\0"
 UNOSLEN = 101
 unos:   .fill UNOSLEN,1,0
-izlaz:  .fill 32,1,0
 lastchar:   .long 0
 greska: .long 0
-lastoper: .ascii "|"
-rezultat: .byte 0
+fib1:   .word 1
+fib2:   .word 0
 
 .section .text
 .globl main
@@ -42,6 +42,20 @@ rezultat: .byte 0
     movl \length,%edx
     int $0x80
     movb $0, -1(%ecx, %eax, 1)
+.endm
+
+# preskakanje razmaka u stringu na koga pokazuje registar
+# makro menja indikatore i vrednost registra koji je prosleđen
+.macro skip_space reg
+1:  cmpb $0,(\reg)
+    je 3f
+    cmpb $' ',(\reg)
+    je 2f
+    jne 3f
+2:
+    incl \reg
+    jmp 1b
+3:
 .endm
 
 #int str_to_inter(char* str, unsigned int* greska, unsigned int baza, char* last)
@@ -108,11 +122,11 @@ s2i_znak2:
 #    js s2i_greska1  #ako je neoznačeni broj veći od 0x7fffffff
 #    imull -4(%ebp)
     jmp s2i_kraj
-s2i_greska3:
+s2i_greska3:    # losa baza
     incl %edi
-s2i_greska2:
+s2i_greska2:    # pogresna cifra
     incl %edi
-s2i_greska1:
+s2i_greska1:    # prekoracenje
     incl %edi
 s2i_kraj:
     movl 20(%ebp), %ecx
@@ -125,135 +139,55 @@ s2i_kraj:
     popl %ebp
     ret
 
-#unsigned int inter_to_str(int broj, char* str, unsigned int duz, unsigned int baza);
-inter_to_str:
-    pushl %ebp
-    movl %esp, %ebp
-    subl $4, %esp
-    pushl %ebx
-    pushl %esi
-    pushl %edi
-    movl 8(%ebp), %eax      #broj
-    movl 12(%ebp), %edi     #str
-    movl 20(%ebp), %ebx     #baza
-    movl $0, -4(%ebp)       #greška
-#    andl %eax, %eax         #da li je broj negativan?
-#    jns i2s_cifra
-#    movb $'-', (%edi)       #ako jeste, ubaci minus
-#    incl %edi
-#    incl 12(%ebp)           #pomeri pokazivač, da se ne bi obrtao minus
-#    decl 16(%ebp)           #smanji broj slobodnih mesta
-#    negl %eax               #komplement 2
-    movb $' ',(%edi)
-    incl %edi
-    incl 12(%ebp)   #pomeri pokazivač, da se ne bi obrtao razmak
-i2s_cifra:
-    decl 16(%ebp)           #provera preostalog mesta
-    cmpl $1, 16(%ebp)       #neophodan je i 1 bajt za NULL
-    jl i2s_greska
-    xorl %edx, %edx
-    divl %ebx
-    cmpb $10, %dl
-    jb i2s_manje10
-    addb $'A'-'9'-1, %dl    #razlika slova i cifara
-i2s_manje10:
-    addb $'0', %dl
-    movb %dl, (%edi)
-    incl %edi
-    andl %eax, %eax
-    jnz i2s_cifra
-    #movb $10, (%edi)
-    movb $0, (%edi)
-    decl %edi
-    movl 12(%ebp), %esi
-i2s_obrni:
-    cmpl %edi, %esi
-    jae i2s_kraj
-    movb (%esi), %ah
-    movb (%edi), %al
-    movb %al, (%esi)
-    movb %ah, (%edi)
-    decl %edi
-    incl %esi
-    jmp i2s_obrni
-i2s_greska:
-    incl -4(%ebp)
-i2s_kraj:
-    movl -4(%ebp), %eax
-    popl %edi
-    popl %esi
-    popl %ebx
-    movl %ebp, %esp
-    popl %ebp
-    ret
-
 main:
     print_str $ispis1
     get_str $unos, $UNOSLEN
-    leal unos, %esi
-get_operand:
+    movl $unos, %esi
+#int str_to_inter(char* str, unsigned int* greska, unsigned int baza, char* last)
+petlja:
     pushl $lastchar
-    pushl $10
+    pushl $8
     pushl $greska
     pushl %esi
     call str_to_inter
     addl $16, %esp
-    cmpl $0, greska
-    jne gr_operand
-    cmpl $255, %eax
-    ja gr_operand
-racunaj:
-    cmpb $'|', lastoper
-    jne racunaj2
-    orb %al, rezultat
-    jmp get_operacija
-racunaj2:
-    cmpb $'^', lastoper
-    jne racunaj3
-    xorb %al, rezultat
-    jmp get_operacija
-racunaj3:
-    cmpb $'&', lastoper
-    andb %al, rezultat
-get_operacija:
+    cmpl $1, greska
+    je gr_prekoracenje
+    cmpl $2, greska
+    je gr_cifra
+    cmpl $0xFFFF, %eax
+    ja gr_prekoracenje
+    cmpw %ax, fib1
+    jne izlaz_nije
+    movw %ax, %cx
+    addw fib2, %ax
+    movw %cx, fib2
+    movw %ax, fib1
     movl lastchar, %esi
-    incl %esi
-    cmpb $0, (%esi)
-    je kraj_ispis
-    cmpb $'|', (%esi)
-    je operacija_ok
-    cmpb $'&', (%esi)
-    je operacija_ok
-    cmpb $'^', (%esi)
-    je operacija_ok
-    jmp gr_operacija
-operacija_ok:
-    movb (%esi), %al
-    movb %al, lastoper
-    incl %esi
-    incl %esi
-    jmp get_operand
-kraj_ispis:
-    pushl $8
-    pushl $32
-    pushl $izlaz
-    xorl %eax, %eax
-    movb rezultat, %al
-    pushl %eax
-    call inter_to_str
-    addl $16, %ebx
+    skip_space %esi
+    cmpb $0,(%esi)
+    je izlaz_jeste
+    jmp petlja
+
+izlaz_jeste:
     print_str $ispis2
-    print_str $izlaz
-    print_str $newlin
     movl $0, %ebx
     jmp kraj
-gr_operand:
+
+izlaz_nije:
+    print_str $ispis3
+    movl $0, %ebx
+    jmp kraj
+
+gr_cifra:
     print_str $greska1
     movl $1, %ebx
     jmp kraj
-gr_operacija:
+
+gr_prekoracenje:
     print_str $greska2
     movl $1, %ebx
+
 kraj:
     movl $1, %eax
     int $0x80
