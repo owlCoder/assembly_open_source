@@ -1,5 +1,3 @@
-# autor: Imenko Prezimić INDEX in12-2018
-# fajlovi: resenje.S
 # Suma aritmetičke progresije
 .section .data
 in_max = 12
