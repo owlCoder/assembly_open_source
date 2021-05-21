@@ -1,0 +1,56 @@
+-----------------------------------
+TEST 01
+-----------------------------------
+TAČAN IZLAZ:
+Unesite pocetni clan: -2
+Unesite gornju granicu: 6
+Suma aritmeticke progresije je: 18
+Izlazni kod: 0
+
+
+-----------------------------------
+TEST 02
+-----------------------------------
+TAČAN IZLAZ:
+Unesite pocetni clan: 8
+Unesite gornju granicu: 23B1
+Nedozvoljena vrednost ulaza!
+Izlazni kod: 1
+
+Izlazni kod: 1
+
+
+-----------------------------------
+TEST 03
+-----------------------------------
+TAČAN IZLAZ:
+Unesite pocetni clan: 1000000000
+Unesite gornju granicu: 2000000000
+Prekoracenje opsega!
+Izlazni kod: 2
+
+Izlazni kod: 2
+
+
+-----------------------------------
+TEST 04
+-----------------------------------
+TAČAN IZLAZ:
+Unesite pocetni clan: 8000.0
+Nedozvoljena vrednost ulaza!
+Izlazni kod: 1
+
+Izlazni kod: 1
+
+
+-----------------------------------
+TEST 05
+-----------------------------------
+TAČAN IZLAZ:
+Unesite pocetni clan: 10
+Unesite gornju granicu: 3000000000
+Prekoracenje opsega!
+Izlazni kod: 2
+
+
+-----------------------------------
