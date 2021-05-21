@@ -1,5 +1,3 @@
-#autor: Imenko Prezimić INDEX ra1234-2015
-
 #greske
 # greska 1 - pogresna cifra i prazan string pri konverziji
 # greska 2 - izlazak van opsega pri konverziji
