@@ -1,5 +1,3 @@
-#autor: Imenko Prezimić INDEX ra1234-2015
-
 .section .data
 ispis1: .ascii "Unesite izraz: \0"
 ispis2: .ascii "Suma brojeva u opsegu je manja.\n\0"
