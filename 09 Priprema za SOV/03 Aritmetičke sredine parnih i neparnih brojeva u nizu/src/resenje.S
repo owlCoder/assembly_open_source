@@ -1,5 +1,3 @@
-# Imenko Prezimić ra1234
-
 .section .data
 poruka1: .ascii "Unesite niz: \0"
 por1_len = . - poruka1
