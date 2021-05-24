@@ -79,7 +79,7 @@ greskaKonverzija:
 kraj:
     # sumiraj u broj
     movl %eax,      broj
-    movl %ebx,      broj+4
+    movl %edx,      broj+4
 
     movl $1,        %eax
     movl greska,    %ebx
