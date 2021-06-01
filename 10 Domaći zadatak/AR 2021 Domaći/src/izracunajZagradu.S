@@ -21,7 +21,7 @@ izracunajZagradu:
 
 preskoci_razmake_sa_pocetka_zagrade:
 	cmpb $' ',		   (%esi)	# ako se na početku unosa nalaze razmaci
-	jne prviBrojURezultat_zagrade # ako nije razmak, prelazimo na obradu unosa da li je cifra/operacija/zagrada
+	jne prviBrojURezultat_zagrade           # ako nije razmak, prelazimo na obradu unosa da li je cifra/operacija/zagrada
 	incl 				%esi	# preskačemo ih sve dok ne naiđemo na cifru
 	jmp preskoci_razmake_sa_pocetka_zagrade
 
@@ -44,7 +44,7 @@ prviBrojURezultat_zagrade:
     xorl %edx,        %edx  # isti razlog resetovanja na 0 kao za div naredbu
     mull %ecx               # pomnoži %eax sa %ecx
     addl %ebx,        %eax  # dodaj konvertovanu cifru u broj (%eax)
-    jc  prekoracenje_zagrade        # prekoracenje u konverziji --> carry flag
+    jc  prekoracenje_zagrade # prekoracenje u konverziji --> carry flag
 
     incl %esi               # pređi na sledeći element u izrazu
     jmp prviBrojURezultat_zagrade
