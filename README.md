@@ -15,9 +15,13 @@ UVOD U ALGORITME
 │     06 Priprema za T1234
 |
 └─── SOV
-      07 Bit maske
-      08 Interna konverzija
-      09 Priprema za SOV
+|     07 Bit maske
+|     08 Interna konverzija
+|     09 Priprema za SOV
+│     
+|
+└─── DOMAĆI ZADATAK
+      10 Domaći zadatak
 
 ```
 
