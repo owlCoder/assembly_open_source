@@ -37,14 +37,3 @@ kraj:
     movl %ebp, %esp       
     popl %ebp
     ret
-
-# int fibonaci(int n, unsigned int* rez) {
-#    int a = 1, b = 0, suma = 0;
-#    for(int i = 1; i <= n; i++) {
-#        suma = a + b;
-#        a = b;
-#        b = suma;
-#    }
-#    *rez = suma;
-#    return 0;
-# }
