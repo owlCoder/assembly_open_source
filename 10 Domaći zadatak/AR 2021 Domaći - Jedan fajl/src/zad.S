@@ -614,7 +614,7 @@ deli:
                     movl %eax,     %ebx
                     movl -4(%ebp), %eax   # rezultat koji delimo
                     divl %ebx             # broj koji smo konvertovali se nalazi u %eax, podeli %eax sa %ebx
-                    movl %eax,           (%edi)  # pomeri izračunato na vrednost rezultata
+                    movl %eax,    (%edi)  # pomeri izračunato na vrednost rezultata
                     jc prekoracenje_dodaj_rezultat
                     jmp nema_greske
 
@@ -663,7 +663,7 @@ xoruj:
                 exili:
                     movl -4(%ebp), %ebx  # rezultat koji množimo
                     xorl %eax,  %ebx     # broj koji smo konvertovali se nalazi u %eax, xorlujemo %eax sa %ebc
-                    movl    %eax,        (%edi)  # pomeri izračunato na vrednost rezultata
+                    movl    %eax,(%edi)  # pomeri izračunato na vrednost rezultata
                     jc prekoracenje_dodaj_rezultat
                     incl %esi 
                     jmp ucitajOperandOperaciju
@@ -671,7 +671,7 @@ xoruj:
                 exili_kraj:
                     movl -4(%ebp), %ebx  # rezultat koji množimo
                     xorl %eax,  %ebx     # broj koji smo konvertovali se nalazi u %eax, xorlujemo %eax sa %ebc
-                    movl %eax,           (%edi)  #  pomeri izračunato na vrednost rezultata
+                    movl %eax,   (%edi)  # pomeri izračunato na vrednost rezultata
                     jc prekoracenje_dodaj_rezultat
                     jmp nema_greske
 
@@ -680,8 +680,8 @@ obradiZagradu:
     incl %esi
 
     # potprogram koji računa rezultat u okviru zagrada ()
-    pushl $rezZagrada   # rezultat iz zagrade koji smeštamo
-    pushl %esi          # u esi je trenutna adresa unosa
+    pushl $rezZagrada        # rezultat iz zagrade koji smeštamo
+    pushl %esi               # u esi je trenutna adresa unosa
     call izracunajZagradu
     addl $8,          %esp   # vrati stek u prethodno stanje
     
@@ -787,7 +787,7 @@ obradiZagradu:
         jc prekoracenje_dodaj_rezultat # došlo je do prekoračenja
         xorl %eax,              %eax   # anuliraj %eax
         
-         pomeriEsi_xorl:    # pređi na sledeći element u izrazu nakon prolaska kroz izraz u zagradi
+         pomeriEsi_xorl:               # pređi na sledeći element u izrazu nakon prolaska kroz izraz u zagradi
             cmpb $')',             (%esi)
             je dalje_d 
             incl %esi
@@ -838,7 +838,7 @@ izracunajZagradu:
 
 preskoci_razmake_sa_pocetka_zagrade:
 	cmpb $' ',		   (%esi)	# ako se na početku unosa nalaze razmaci
-	jne prviBrojURezultat_zagrade # ako nije razmak, prelazimo na obradu unosa da li je cifra/operacija/zagrada
+	jne prviBrojURezultat_zagrade           # ako nije razmak, prelazimo na obradu unosa da li je cifra/operacija/zagrada
 	incl 				%esi	# preskačemo ih sve dok ne naiđemo na cifru
 	jmp preskoci_razmake_sa_pocetka_zagrade
 
@@ -861,7 +861,7 @@ prviBrojURezultat_zagrade:
     xorl %edx,        %edx  # isti razlog resetovanja na 0 kao za div naredbu
     mull %ecx               # pomnoži %eax sa %ecx
     addl %ebx,        %eax  # dodaj konvertovanu cifru u broj (%eax)
-    jc  prekoracenje_zagrade        # prekoracenje u konverziji --> carry flag
+    jc  prekoracenje_zagrade # prekoracenje u konverziji --> carry flag
 
     incl %esi               # pređi na sledeći element u izrazu
     jmp prviBrojURezultat_zagrade
