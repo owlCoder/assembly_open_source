@@ -1,5 +1,4 @@
 # uvesti parametar baza u zadatak 2 i prepraviti potprogram da radi sa bilo kojom bazom 2-10:
-# int str_to_inter(char* str, unsigned int* greska, unsigned int baza)
 
 .section .text
 .global str_to_inter
