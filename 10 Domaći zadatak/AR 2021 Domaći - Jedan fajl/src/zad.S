@@ -246,9 +246,9 @@ konvertujBrojUString:
             decl    %edi            # poslednji znak je '\0' koji ne treba da invertujemo
             
             # idemo samo do polovine stringa, jer ako idemo do kraja stringa, invertovanje će uraditi 2 puta, pa ćemo dobiti početni string
-            movl    $2,		  %ecx  # polovina = dužina_stringa / 2
+            movl    $2,	      %ecx  # polovina = dužina_stringa / 2
             movl    %ebx,     %eax  # polovina = dužina_stringa / 2
-            xorl    %edx,	  %edx  # naredba div zahteva da se u registru %edx nalazi 0 kako bi deljenje bilo uspešno
+            xorl    %edx,     %edx  # naredba div zahteva da se u registru %edx nalazi 0 kako bi deljenje bilo uspešno
             divl    %ecx            # podeli ono što se nalazi u %eax sa %ecx
             xorl    %ebx,     %ebx  # anuliraj %ebx
 
@@ -391,7 +391,7 @@ preskakanjeRazmaka:
 saberi:
     incl %esi # preskaćemo +
     preskociRazmakePoslePlusa:
-        cmpb  $' ',      (%esi) # ponovo preskačemo sve razmake do prvog broja ili zagrade
+        cmpb  $' ',      (%esi)         # ponovo preskačemo sve razmake do prvog broja ili zagrade
         jne traziZagraduIliBroj
 
         incl %esi
