@@ -66,12 +66,12 @@ obradaUnosa:
 	# 1 - desilo se prekoračenje opsega u toku konverzije broja
 	# 2 - desilo se prekoračenje opsega kada se konvertovani broj dodao na rezultat
 	# 3 - uneti izraz nije korektno unet
-	pushl 			   $rezultat   # promenljive se na stek šalju u obrnutom redosledu
+	pushl 			   $rezultat    # promenljive se na stek šalju u obrnutom redosledu
 	pushl 		       $uneti_izraz	# cdecl !
-	call konvertujIzrazUInterni	   # poziv potprograma za konverziju iz znakovnog u interni
-	addl $8,		   %esp        # oslobađa se prostor na steku koji smo zauzeli
+	call konvertujIzrazUInterni	        # poziv potprograma za konverziju iz znakovnog u interni
+	addl $8,		   %esp         # oslobađa se prostor na steku koji smo zauzeli
 
-	movl %eax,	       greska	   # povratna vrednost potprograma se nalazi u registru opšte namene %eax
+	movl %eax,	       greska	        # povratna vrednost potprograma se nalazi u registru opšte namene %eax
 
 	# greska == 3 - uneti izraz nije korektno unet
 	cmpl $3,		   greska
@@ -91,8 +91,8 @@ obradaUnosa:
 	# void konvertujBrojUString(unsigned int broj, char *hex_broj)
 	pushl 		       $rezultat_ispis # cdecl !
 	pushl 			    rezultat   # promenljive se na stek šalju u obrnutom redosledu
-								   # kako nećemo menjati razultat, već ga samo konvertovani, šaljemo vrednost, ne adresu na stek.
-	call konvertujBrojUString	   # poziv potprograma za konverziju iz znakovnog u interni
+					       # kako nećemo menjati razultat, već ga samo konvertovani, šaljemo vrednost, ne adresu na stek.
+	call konvertujBrojUString	       # poziv potprograma za konverziju iz znakovnog u interni
 	addl $8,		   %esp        # oslobađa se prostor na steku koji smo zauzeli
 
 	# ispis poruke za rezultat na terminal
